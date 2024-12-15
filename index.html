@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIL+ - Página Principal</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles/modal.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="header-container"></div>
+    <main>
+        <!-- Inicio -->
+        <section id="inicio" class="hero">
+            <h1>¡Bienvenidos a FIL+!</h1>
+            <p>Explora la Feria Internacional del Libro de Guadalajara como nunca antes.</p>
+            <a href="#programacion" class="btn">Explorar Programación</a>
+        </section>
+
+        <!-- Programación -->
+        <section id="programacion" class="section">
+            <h2>Programación</h2>
+            <p>Descubre los eventos destacados, presentaciones y actividades.</p>
+            <div class="grid">
+                <div class="card">
+                    <h3>Conferencia Magistral</h3>
+                    <p>Un espacio para escuchar a autores reconocidos.</p>
+                </div>
+                <div class="card">
+                    <h3>Firmas de Libros</h3>
+                    <p>Conoce a tus escritores favoritos en persona.</p>
+                </div>
+                <div class="card">
+                    <h3>Actividades Infantiles</h3>
+                    <p>Un mundo de aventuras para los más pequeños.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Expositores -->
+        <section id="expositores" class="section">
+            <h2>Expositores</h2>
+            <p>Más de 500 editoriales de todo el mundo te esperan.</p>
+            <div class="carousel">
+                <button class="carousel-btn prev-btn">◀</button>
+                <div class="carousel-track-container">
+                    <ul class="carousel-track">
+                        <li class="carousel-item">Editorial Planeta</li>
+                        <li class="carousel-item">Penguin Random House</li>
+                        <li class="carousel-item">Fondo de Cultura Económica</li>
+                        <li class="carousel-item">Alianza Editorial</li>
+                    </ul>
+                </div>
+                <button class="carousel-btn next-btn">▶</button>
+            </div>
+        </section>
+
+        <!-- Opiniones -->
+        <section id="opiniones" class="section">
+            <h2>Opiniones</h2>
+            <p>Esto es lo que dicen los asistentes:</p>
+            <div class="grid">
+                <div class="card">
+                    <p>"Una experiencia increíble para los amantes de los libros. ¡No puedo esperar al próximo año!"</p>
+                    <span>- María López</span>
+                </div>
+                <div class="card">
+                    <p>"Gran variedad de editoriales y actividades para toda la familia."</p>
+                    <span>- José Ramírez</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comunidad -->
+        <section id="comunidad" class="section">
+            <h2>Comunidad</h2>
+            <p>Únete a la conversación y comparte tu experiencia:</p>
+            <div class="grid">
+                <div class="card">
+                    <h3>Redes Sociales</h3>
+                    <p>Comparte tus momentos favoritos usando #FIL2024</p>
+                </div>
+                <div class="card">
+                    <h3>Foro FIL+</h3>
+                    <p>Participa en discusiones exclusivas para asistentes registrados.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+    <div id="footer-container"></div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="JS/header-footer.js"></script>
+</body>
+</html>

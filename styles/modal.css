@@ -1,0 +1,101 @@
+/* Modal Styling */
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.5);
+    width: 90%;
+    max-width: 450px;
+    position: relative;
+    text-align: center;
+    color: #4B0082; /* Morado */
+}
+
+.modal-content h2 {
+    margin: 0 0 20px;
+    font-size: 1.8rem;
+    color: #4B0082; /* Morado */
+    font-weight: bold;
+}
+
+.modal-content label {
+    display: block;
+    text-align: left;
+    margin: 10px 0 5px;
+    font-weight: bold;
+    color: #4B0082; /* Morado */
+}
+
+.modal-content input {
+    width: 98%; 
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    text-align: center; /* Centrar texto */
+    margin-left: auto; /* Centrar horizontalmente */
+    margin-right: auto;
+}
+
+.modal-content input:focus {
+    border-color: #4B0082; /* Morado */
+    outline: none;
+}
+
+.modal-content button {
+    background: #6A0DAD; /* Tonalidad de morado */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.modal-content button:hover {
+    background: #4B0082; /* Morado más oscuro */
+}
+
+.modal-content .close {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    font-size: 1.5rem;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.modal-content .close:hover {
+    color: #4B0082; /* Morado */
+}
+
+.modal-content a {
+    color: #6A0DAD; /* Morado claro */
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+.modal-content a:hover {
+    text-decoration: underline;
+}
