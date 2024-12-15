@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>FIL+ - Página Principal</title>
+        <link rel="stylesheet" href="styles/styles.css">
+        <link rel="stylesheet" href="styles/modal.css">
+        <link rel="stylesheet" href="styles/comunidad.css">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div id="header-container"></div>
+
+        <main>
+            <div class="container">
+                <div class="cards">
+                    <div class="card">
+                        <h3>Juan Pérez</h3>
+                        <p>Me encantó la variedad de actividades en la feria del libro. Encontré libros que no conocía y disfruté mucho las conferencias.</p>
+                    </div>
+                    <div class="card">
+                        <h3>María López</h3>
+                        <p>Las actividades infantiles fueron perfectas para mis hijos. Pasaron un día increíble y aprendieron mucho.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Carlos García</h3>
+                        <p>La organización fue excelente y las presentaciones de libros muy interesantes. Definitivamente regresaré el próximo año.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Luisa Fernández</h3>
+                        <p>Disfruté mucho las firmas de libros. Pude conocer a mis autores favoritos y obtener sus autógrafos.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Pedro Martínez</h3>
+                        <p>Las charlas sobre crítica literaria fueron muy enriquecedoras. Aprendí nuevas perspectivas sobre mis libros favoritos.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Ana Gómez</h3>
+                        <p>Las proyecciones de películas basadas en novelas fueron un excelente complemento a la feria. Me encantó la experiencia.</p>
+                    </div>
+                </div>
+        
+                <div class="faq">
+                    <h2>Preguntas Frecuentes</h2>
+                    <div class="faq-item">
+                        <h3>¿Dónde se llevará a cabo la feria del libro?</h3>
+                        <p>La feria del libro se llevará a cabo en Expo Guadalajara, Jalisco, México</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>¿Cuál es el horario de la feria del libro?</h3>
+                        <p>La feria del libro estará abierta al público desde las 9:00 AM hasta las 8:00 PM todos los días del evento.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>¿Es necesario comprar boletos para asistir a las actividades?</h3>
+                        <p>La entrada a la feria del libro es gratuita, pero algunas actividades pueden requerir inscripción previa debido al cupo limitado.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>¿Hay estacionamiento disponible en el lugar del evento?</h3>
+                        <p>Sí, el lugar del evento cuenta con un amplio estacionamiento gratuito para todos los asistentes.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>¿Se pueden comprar libros durante la feria?</h3>
+                        <p>Sí, habrá stands de diversas editoriales donde se podrán comprar libros directamente durante todo el evento.</p>
+                    </div>
+                </div>
+            </div>
+                <!-- Sección de Foro -->
+            <section class="forum-section">
+                <h2>Comunidad - Foro</h2>
+                <div id="commentsContainer">
+                    <!-- Aquí se cargarán los comentarios vía JS -->
+                </div>
+                
+                <!-- Si se tiene sesión, se muestra el formulario para comentar -->
+                <div id="commentFormContainer" style="display:none;">
+                    <h3>Agregar un comentario</h3>
+                    <form id="commentForm">
+                        <textarea id="commentText" placeholder="Escribe tu comentario..." required></textarea>
+                        <button type="submit">Publicar</button>
+                    </form>
+                </div>
+            </section>
+        </main>
+
+        <div id="footer-container"></div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var faqItems = document.querySelectorAll('.faq-item h3');
+                faqItems.forEach(function(item) {
+                    item.addEventListener('click', function() {
+                        var content = this.nextElementSibling;
+                        if (content.style.display === 'block') {
+                            content.style.display = 'none';
+                        } else {
+                            content.style.display = 'block';
+                        }
+                    });
+                });
+            });
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="JS/header-footer.js"></script>
+        <script src="JS/forum.js"></script>
+    </body>
+</html>

@@ -1,0 +1,151 @@
+.container {
+    padding: 2rem;
+}
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+.card {
+    background: white;
+    padding: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: calc(33.333% - 2rem);
+    box-sizing: border-box;
+}
+.card h3 {
+    color: #5c2a9d;
+    margin-top: 0;
+}
+.faq {
+    margin-top: 2rem;
+}
+.faq h2 {
+    color: #5c2a9d;
+    margin-bottom: 1rem;
+}
+.faq-item {
+    margin-bottom: 1rem;
+}
+.faq-item h3 {
+    cursor: pointer;
+    margin: 0;
+    padding: 1rem;
+    background: #e4e4e4;
+}
+.faq-item p {
+    display: none;
+    padding: 1rem;
+    background: white;
+    margin: 0;
+}
+
+/* Estilos para la sección del foro */
+.forum-section {
+    margin-top: 40px;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.forum-section h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+}
+
+/* Contenedor de comentarios */
+#commentsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Cada comentario como una "card" */
+#commentsContainer .card {
+    background: #fff;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    transition: box-shadow 0.3s ease;
+}
+
+#commentsContainer .card:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+#commentsContainer .card h3 {
+    font-size: 18px;
+    margin: 0 0 8px 0;
+    color: #333;
+}
+
+#commentsContainer .card p {
+    font-size: 16px;
+    margin: 0;
+    color: #555;
+}
+
+/* Estilos para el formulario de agregar comentarios */
+#commentFormContainer {
+    margin-top: 30px;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+#commentFormContainer h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #333;
+    text-align: center;
+}
+
+#commentForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#commentForm textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    resize: vertical;
+}
+
+#commentForm button[type="submit"] {
+    align-self: flex-end;
+    background: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+#commentForm button[type="submit"]:hover {
+    background: #45a049;
+}
+
+/* Opcional: estado deshabilitado del formulario si no hay sesión */
+#commentFormContainer.no-session {
+    opacity: 0.6;
+    pointer-events: none;
+}
+#commentFormContainer.no-session::before {
+    content: "Inicia sesión para agregar comentarios.";
+    display: block;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #888;
+}

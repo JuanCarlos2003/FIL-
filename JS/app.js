@@ -1,12 +1,9 @@
-const API_URL = "http://localhost:3000";
-let token = null;
-let currentUsername = null;
+// Estas variables ya se definen en header-footer.js:
+// let token = null;
+// let currentUsername = null;
+// const API_URL = "http://localhost:3000";
 
-// DOM Elements
 const authMessage = document.getElementById('authMessage');
-const registerForm = document.getElementById('registerForm');
-const loginForm = document.getElementById('loginForm');
-const userSection = document.getElementById('userSection');
 
 const searchForm = document.getElementById('searchForm');
 const searchQueryInput = document.getElementById('searchQuery');
@@ -30,6 +27,39 @@ let currentSearchPage = 1;
 let currentSearchQuery = '';
 let currentSearchAuthor = '';
 
+// Mostrar u ocultar secciones según el estado de la sesión
+document.addEventListener('DOMContentLoaded', () => {
+    updateUIBasedOnSession();
+});
+
+// Actualiza la interfaz en función de si hay sesión iniciada o no
+function updateUIBasedOnSession() {
+    // Mostrar la sección de búsqueda de libros siempre
+    const searchSection = document.querySelector('.search-section');
+    if (searchSection) searchSection.style.display = 'block';
+
+    // Si hay token (sesión iniciada), mostrar navbar, filtros y biblioteca
+    if (token && currentUsername) {
+        if (navbar) navbar.style.display = 'block';
+        const filtersSec = document.querySelector('.filters-section');
+        const librarySec = document.querySelector('.library-section');
+        if (filtersSec) filtersSec.style.display = 'block';
+        if (librarySec) librarySec.style.display = 'block';
+
+        // Cargar datos iniciales de la biblioteca si se desea
+        loadMyShelf();
+        loadStats();
+        loadRecommendations();
+    } else {
+        // Si no hay sesión, ocultar navbar, filtros y biblioteca
+        if (navbar) navbar.style.display = 'none';
+        const filtersSec = document.querySelector('.filters-section');
+        const librarySec = document.querySelector('.library-section');
+        if (filtersSec) filtersSec.style.display = 'none';
+        if (librarySec) librarySec.style.display = 'none';
+    }
+}
+
 // Mostrar notificaciones
 function showToast(message) {
     toast.textContent = message;
@@ -39,108 +69,17 @@ function showToast(message) {
     }, 3000);
 }
 
-// Mostrar spinner
+// Mostrar/ocultar spinner
 function showSpinner(show) {
     spinnerOverlay.style.display = show ? 'flex' : 'none';
 }
 
-// Registro
-registerForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const username = document.getElementById('regUsername').value;
-    const password = document.getElementById('regPassword').value;
-
-    try {
-        const res = await fetch(`${API_URL}/api/auth/register`, {
-            method: 'POST',
-            headers: {'Content-Type':'application/json'},
-            body: JSON.stringify({username, password})
-        });
-        const data = await res.json();
-        if(data.error) {
-            authMessage.textContent = data.error;
-        } else {
-            authMessage.style.color = 'green';
-            authMessage.textContent = data.message;
-        }
-    } catch (err) {
-        authMessage.style.color = 'red';
-        authMessage.textContent = "Error de conexión con el servidor.";
-    }
-});
-
-// Login
-loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const username = document.getElementById('logUsername').value;
-    const password = document.getElementById('logPassword').value;
-
-    try {
-        const res = await fetch(`${API_URL}/api/auth/login`, {
-            method: 'POST',
-            headers: {'Content-Type':'application/json'},
-            body: JSON.stringify({username, password})
-        });
-        const data = await res.json();
-        if(data.error) {
-            authMessage.style.color = 'red';
-            authMessage.textContent = data.error;
-        } else {
-            token = data.token;
-            currentUsername = data.username;
-            authMessage.style.color = 'green';
-            authMessage.textContent = "Sesión iniciada.";
-            renderUserSection();
-            showMainSections();
-            loadMyShelf();
-            loadStats();
-            loadRecommendations();
-        }
-    } catch (err) {
-        authMessage.style.color = 'red';
-        authMessage.textContent = "Error de conexión con el servidor.";
-    }
-});
-
-// Render top user section
-function renderUserSection() {
-    if(token && currentUsername) {
-        userSection.innerHTML = `
-            <span style="font-weight:bold;">${currentUsername}</span>
-            <button id="logoutBtn" style="padding:5px 10px; background:#e74c3c; color:#fff; border:none; border-radius:4px; cursor:pointer;">Logout</button>
-        `;
-        document.getElementById('logoutBtn').addEventListener('click', () => {
-            token = null;
-            currentUsername = null;
-            userSection.innerHTML = '';
-            hideMainSections();
-            authMessage.textContent = "Sesión cerrada.";
-        });
-    } else {
-        userSection.innerHTML = '';
-    }
-}
-
-function showMainSections() {
-    navbar.style.display = 'block';
-    document.querySelector('.search-section').style.display = 'block';
-    document.querySelector('.filters-section').style.display = 'block';
-    document.querySelector('.library-section').style.display = 'block';
-}
-
-function hideMainSections() {
-    navbar.style.display = 'none';
-    document.querySelector('.search-section').style.display = 'none';
-    document.querySelector('.filters-section').style.display = 'none';
-    document.querySelector('.library-section').style.display = 'none';
-}
-
-// Búsqueda de libros
-if(searchForm) {
+// Evento de búsqueda de libros
+if (searchForm) {
     searchForm.addEventListener('submit', (e) => {
         e.preventDefault();
         currentSearchQuery = searchQueryInput.value.trim();
-        currentSearchAuthor = searchAuthorInput.value.trim();
+        currentSearchAuthor = searchAuthorInput ? searchAuthorInput.value.trim() : '';
         currentSearchPage = 1;
         searchBooksAndDisplay();
     });
@@ -186,7 +125,7 @@ function displayPagination(total) {
 // Mostrar resultados de búsqueda
 function displaySearchResults(books, total) {
     searchResults.innerHTML = '';
-    if (books.length === 0) {
+    if (!books || books.length === 0) {
         searchResults.innerHTML = '<p>No se encontraron resultados.</p>';
         paginationControls.innerHTML = '';
         return;
@@ -197,7 +136,6 @@ function displaySearchResults(books, total) {
     });
     displayPagination(total);
 }
-
 
 // Crear tarjeta de libro
 function createBookCard(book, inShelf = true) {
@@ -213,13 +151,13 @@ function createBookCard(book, inShelf = true) {
     `;
 
     if (!inShelf) {
-        // Botón para agregar
+        // Botón para agregar a la biblioteca
         const btn = document.createElement('button');
         btn.textContent = 'Agregar a mi biblioteca';
         btn.addEventListener('click', () => addToShelf(book));
         card.appendChild(btn);
     } else {
-        // En estantería: mostrar rating con estrellas, reseña, marcar terminado, tags, compartir
+        // Si está en la estantería, mostrar rating, reseña, tags, etc.
         const ratingDiv = createStarRating(book);
         card.appendChild(ratingDiv);
 
@@ -459,7 +397,7 @@ async function loadRecommendations() {
     });
     const data = await res.json();
     recommendationsDiv.innerHTML = '';
-    if(data.length === 0) {
+    if(!data || data.length === 0) {
         recommendationsDiv.innerHTML = '<p>No hay recomendaciones disponibles.</p>';
         return;
     }
@@ -470,7 +408,8 @@ async function loadRecommendations() {
 }
 
 // Filtro por categoría
-applyFilterBtn.addEventListener('click', () => {
-    loadMyShelf(filterCategoryInput.value.trim());
-});
-
+if (applyFilterBtn) {
+    applyFilterBtn.addEventListener('click', () => {
+        loadMyShelf(filterCategoryInput.value.trim());
+    });
+}

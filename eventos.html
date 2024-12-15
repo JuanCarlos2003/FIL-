@@ -1,26 +1,335 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FIL+ - Página Principal</title>
-    <link rel="stylesheet" href="styles/styles.css">
-    <link rel="stylesheet" href="styles/modal.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div id="header-container"></div>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>FIL+ - Página Principal</title>
+        <link rel="stylesheet" href="styles/styles.css">
+        <link rel="stylesheet" href="styles/modal.css">
+        <link rel="stylesheet" href="styles/eventos.css">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div id="header-container"></div>
 
-    <main>
-        <!-- Contenido específico de la página -->
-        <section>
-            <h1>Prueba</h1>
-            
-        </section>
-    </main>
+        <main>
+            <!-- Contenido específico de la página -->
+            <section>
+                <div class="container">
+                    <h2>Calendario de Eventos</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Hora</th>
+                                <th>25 Nov</th>
+                                <th>26 Nov</th>
+                                <th>27 Nov</th>
+                                <th>28 Nov</th>
+                                <th>29 Nov</th>
+                                <th>30 Nov</th>
+                                <th>1 Dic</th>
+                                <th>2 Dic</th>
+                                <th>3 Dic</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>9:00 AM</td>
+                                <td class="event">
+                                    <h3>Inauguración</h3>
+                                    <p>Discurso de bienvenida</p>
+                                    <p><strong>Lugar:</strong> Auditorio Principal</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Lectura de Cuentos</h3>
+                                    <p>Para niños de 4 a 6 años</p>
+                                    <p><strong>Lugar:</strong> Zona Infantil</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Taller de Caligrafía</h3>
+                                    <p>Aprende caligrafía artística</p>
+                                    <p><strong>Lugar:</strong> Sala de Talleres</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Conferencia de Autor</h3>
+                                    <p>Por Isabel Allende</p>
+                                    <p><strong>Lugar:</strong> Auditorio Principal</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Lectura de Poesía</h3>
+                                    <p>Autores locales</p>
+                                    <p><strong>Lugar:</strong> Sala de Conferencias</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Exhibición de Libros Antiguos</h3>
+                                    <p>Historia de la imprenta</p>
+                                    <p><strong>Lugar:</strong> Galería</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Charla sobre Publicación</h3>
+                                    <p>Cómo autopublicar tu libro</p>
+                                    <p><strong>Lugar:</strong> Sala de Talleres</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Presentación de Libro</h3>
+                                    <p>Nuevo libro de Laura Sánchez</p>
+                                    <p><strong>Lugar:</strong> Sala de Conferencias</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Taller de Escritura</h3>
+                                    <p>Escribir tu primera novela</p>
+                                    <p><strong>Lugar:</strong> Sala de Talleres</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>11:00 AM</td>
+                                <td class="event">
+                                    <h3>Firma de Libros</h3>
+                                    <p>María García</p>
+                                    <p><strong>Lugar:</strong> Stand 5</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Taller de Ilustración</h3>
+                                    <p>Para niños</p>
+                                    <p><strong>Lugar:</strong> Zona Infantil</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Conferencia: Ciencia Ficción</h3>
+                                    <p>Impacto en la sociedad</p>
+                                    <p><strong>Lugar:</strong> Auditorio Principal</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Debate Literario</h3>
+                                    <p>Literatura vs. Cine</p>
+                                    <p><strong>Lugar:</strong> Sala de Conferencias</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Taller de Poesía</h3>
+                                    <p>Escritura creativa</p>
+                                    <p><strong>Lugar:</strong> Sala de Talleres</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Lectura de Cuentos</h3>
+                                    <p>Para adolescentes</p>
+                                    <p><strong>Lugar:</strong> Zona Infantil</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Charla sobre Edición</h3>
+                                    <p>Proceso editorial</p>
+                                    <p><strong>Lugar:</strong> Sala de Conferencias</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Firma de Libros</h3>
+                                    <p>Carlos López</p>
+                                    <p><strong>Lugar:</strong> Stand 7</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Presentación de Novela</h3>
+                                    <p>Última obra de Julio Martínez</p>
+                                    <p><strong>Lugar:</strong> Sala de Conferencias</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2:00 PM</td>
+                                <td class="event">
+                                    <h3>Charla sobre Fantasía</h3>
+                                    <p>Creación de mundos</p>
+                                    <p><strong>Lugar:</strong> Auditorio Principal</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Taller de Teatro</h3>
+                                    <p>Interpretación de textos</p>
+                                    <p><strong>Lugar:</strong> Sala de Talleres</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Lectura de Poesía</h3>
+                                    <p>Poesía contemporánea</p>
+                                    <p><strong>Lugar:</strong> Sala de Conferencias</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Proyección de Documental</h3>
+                                    <p>La vida de Gabriel García Márquez</p>
+                                    <p><strong>Lugar:</strong> Sala de Conferencias</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Firma de Libros</h3>
+                                    <p>Lucía Fernández</p>
+                                    <p><strong>Lugar:</strong> Stand 3</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Charla sobre Ciencia</h3>
+                                    <p>Ciencia y literatura</p>
+                                    <p><strong>Lugar:</strong> Auditorio Principal</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Lectura Dramatizada</h3>
+                                    <p>Grupo de teatro local</p>
+                                    <p><strong>Lugar:</strong> Auditorio Principal</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Presentación de Libro</h3>
+                                    <p>Antología de cuentos</p>
+                                    <p><strong>Lugar:</strong> Sala de Conferencias</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Conferencia: Ficción Histórica</h3>
+                                    <p>Escribir sobre el pasado</p>
+                                    <p><strong>Lugar:</strong> Sala de Conferencias</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>4:00 PM</td>
+                                <td class="event">
+                                    <h3>Lectura de Cuentos</h3>
+                                    <p>Para jóvenes</p>
+                                    <p><strong>Lugar:</strong> Zona Infantil</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Presentación de Poemario</h3>
+                                    <p>Nuevo libro de Ana Torres</p>
+                                    <p><strong>Lugar:</strong> Sala de Conferencias</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Debate sobre Literatura</h3>
+                                    <p>Literatura digital vs. impresa</p>
+                                    <p><strong>Lugar:</strong> Sala de Conferencias</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Taller de Cuentacuentos</h3>
+                                    <p>Para padres e hijos</p>
+                                    <p><strong>Lugar:</strong> Zona Infantil</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Charla sobre Crítica Literaria</h3>
+                                    <p>Cómo reseñar libros</p>
+                                    <p><strong>Lugar:</strong> Sala de Talleres</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Firma de Libros</h3>
+                                    <p>Antonio Ruiz</p>
+                                    <p><strong>Lugar:</strong> Stand 4</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Lectura de Ensayo</h3>
+                                    <p>Ensayos contemporáneos</p>
+                                    <p><strong>Lugar:</strong> Sala de Conferencias</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Charla sobre Poesía</h3>
+                                    <p>Poesía y sociedad</p>
+                                    <p><strong>Lugar:</strong> Auditorio Principal</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Presentación de Libro</h3>
+                                    <p>Biografía de un autor</p>
+                                    <p><strong>Lugar:</strong> Sala de Conferencias</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>6:00 PM</td>
+                                <td class="event">
+                                    <h3>Proyección de Película</h3>
+                                    <p>Adaptación de novela</p>
+                                    <p><strong>Lugar:</strong> Sala de Conferencias</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Lectura de Dramatizaciones</h3>
+                                    <p>Escenas de libros</p>
+                                    <p><strong>Lugar:</strong> Auditorio Principal</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Conferencia: Literatura Juvenil</h3>
+                                    <p>Tendencias y autores</p>
+                                    <p><strong>Lugar:</strong> Sala de Conferencias</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Debate: Literatura Clásica</h3>
+                                    <p>Relevancia en la actualidad</p>
+                                    <p><strong>Lugar:</strong> Auditorio Principal</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Concierto de Música</h3>
+                                    <p>Banda local</p>
+                                    <p><strong>Lugar:</strong> Plaza Central</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Lectura de Ensayo</h3>
+                                    <p>Ensayos literarios</p>
+                                    <p><strong>Lugar:</strong> Sala de Conferencias</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Taller de Cuento</h3>
+                                    <p>Escritura de cuentos</p>
+                                    <p><strong>Lugar:</strong> Sala de Talleres</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Charla sobre Historia</h3>
+                                    <p>Historia y literatura</p>
+                                    <p><strong>Lugar:</strong> Auditorio Principal</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Lectura de Poesía</h3>
+                                    <p>Autoras mujeres</p>
+                                    <p><strong>Lugar:</strong> Sala de Conferencias</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>8:00 PM</td>
+                                <td class="event">
+                                    <h3>Clausura del Día</h3>
+                                    <p>Actividades de cierre</p>
+                                    <p><strong>Lugar:</strong> Auditorio Principal</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Concierto de Poesía</h3>
+                                    <p>Poesía y música</p>
+                                    <p><strong>Lugar:</strong> Plaza Central</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Lectura de Novela</h3>
+                                    <p>Autor invitado</p>
+                                    <p><strong>Lugar:</strong> Auditorio Principal</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Conferencia de Autor</h3>
+                                    <p>Por Mario Vargas Llosa</p>
+                                    <p><strong>Lugar:</strong> Auditorio Principal</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Proyección de Película</h3>
+                                    <p>Adaptación de novela</p>
+                                    <p><strong>Lugar:</strong> Sala de Conferencias</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Lectura de Ensayo</h3>
+                                    <p>Temas sociales</p>
+                                    <p><strong>Lugar:</strong> Sala de Conferencias</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Conferencia: Literatura Infantil</h3>
+                                    <p>Importancia y tendencias</p>
+                                    <p><strong>Lugar:</strong> Sala de Conferencias</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Debate Literario</h3>
+                                    <p>Literatura y política</p>
+                                    <p><strong>Lugar:</strong> Auditorio Principal</p>
+                                </td>
+                                <td class="event">
+                                    <h3>Cierre de actividades</h3>
+                                    <p>Despedida de la feria del libro 2024</p>
+                                    <p><strong>Lugar:</strong> Auditorio Principal</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+            </section>
+        </main>
 
-    <div id="footer-container"></div>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="JS/header-footer.js"></script>
-</body>
+        <div id="footer-container"></div>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="JS/header-footer.js"></script>
+    </body>
 </html>

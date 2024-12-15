@@ -3,17 +3,16 @@ let token = null;
 let currentUsername = null;
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Insertar header (simple)
     const header = `
         <header>
             <div class="logo">FIL+</div>
             <div class="header-content">
                 <ul class="nav-links">
                     <li><a href="index.html">Inicio</a></li>
-                    <li><a href="programacion.html">Programación</a></li>
+                    <li><a href="eventos.html">Programación</a></li>
                     <li><a href="expositores.html">Expositores</a></li>
-                    <li><a href="opiniones.html">Opiniones</a></li>
                     <li><a href="comunidad.html">Comunidad</a></li>
+                    <li><a href="libros.html">Biblioteca</a></li>
                 </ul>
                 <div class="header-right">
                     <form id="searchForm" class="search-bar" action="#" method="get">
@@ -211,6 +210,9 @@ function initModalEvents(modal, closeModal) {
                     Swal.fire('Éxito', 'Sesión iniciada.', 'success');
                     renderUserSection();
                     closeModal();
+
+                    // Recargar la página después de iniciar sesión exitosamente
+                    window.location.reload();
                 }
             } catch (err) {
                 Swal.fire('Error', 'Error de conexión con el servidor.', 'error');
@@ -228,4 +230,7 @@ function logoutUser() {
 
     Swal.fire('Sesión cerrada', 'Has cerrado sesión correctamente.', 'info');
     renderUserSection();
+
+    // Recargar la página al cerrar sesión
+    window.location.reload();
 }

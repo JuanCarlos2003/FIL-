@@ -1,87 +1,59 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>Mi Biblioteca</title>
-    <link rel="stylesheet" href="styles/libros.css" />
-</head>
-<body>
-<header class="top-bar">
-    <div class="left-section">
-        <h1>Mi Biblioteca</h1>
-    </div>
-    <div class="right-section" id="userSection"></div>
-</header>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+        <title>Mi Biblioteca</title>
+        <link rel="stylesheet" href="styles/libros.css" />
+        <link rel="stylesheet" href="styles/styles.css">
+        <link rel="stylesheet" href="styles/modal.css">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div id="header-container"></div>
 
-<section class="auth-section card">
-    <h2>Autenticación</h2>
-    <div class="auth-grid">
-        <div class="auth-card">
-            <h3>Registrarse</h3>
-            <form id="registerForm">
-                <input type="text" id="regUsername" placeholder="Usuario" required/>
-                <input type="password" id="regPassword" placeholder="Contraseña" required/>
-                <button type="submit">Registrar</button>
+
+        <nav class="navbar" id="navbar" style="display:none;">
+            <ul class="menu">
+                <li><a href="#buscar">Buscar Libros</a></li>
+                <li><a href="#mi-biblioteca">Mi Biblioteca</a></li>
+
+            </ul>
+        </nav>
+
+        <section class="search-section card" id="buscar" style="display:none;">
+            <h2>Buscar Libros</h2>
+            <form id="searchForm">
+                <input type="text" id="searchQuery" placeholder="Título..." required/>
+                <input type="text" id="searchAuthor" placeholder="Autor..." />
+                <button type="submit">Buscar</button>
             </form>
+            <div id="paginationControls"></div>
+            <div id="searchResults"></div>
+        </section>
+
+        <section class="filters-section card" style="display:none;">
+            <h2>Filtros en Mi Biblioteca</h2>
+            <input type="text" id="filterCategory" placeholder="Categoría..."/>
+            <button id="applyFilterBtn">Aplicar Filtro</button>
+        </section>
+
+        <section class="library-section card" id="mi-biblioteca" style="display:none;">
+            <h2>Mi Biblioteca</h2>
+            <h3>Mis Libros</h3>
+            <div id="myShelf"></div>
+            <h3 id="recomendaciones" class="sub-h3">Recomendaciones</h3>
+            <div id="recommendations"></div>
+            <div id="stats" class="subcard"></div>
+        </section>
+
+        <div id="toast"></div>
+        <div class="spinner-overlay" id="spinnerOverlay">
+            <div class="spinner"></div>
         </div>
-        <div class="auth-card">
-            <h3>Iniciar Sesión</h3>
-            <form id="loginForm">
-                <input type="text" id="logUsername" placeholder="Usuario" required/>
-                <input type="password" id="logPassword" placeholder="Contraseña" required/>
-                <button type="submit">Login</button>
-            </form>
-        </div>
-    </div>
-    <p id="authMessage" class="error-message"></p>
-</section>
-
-<nav class="navbar" id="navbar" style="display:none;">
-    <ul class="menu">
-        <li><a href="#buscar">Buscar Libros</a></li>
-        <li><a href="#mi-biblioteca">Mi Biblioteca</a></li>
-        <li class="dropdown">
-            <a href="#" class="dropbtn">Opciones</a>
-            <div class="dropdown-content">
-                <a href="#estadisticas">Estadísticas</a>
-                <a href="#recomendaciones">Recomendaciones</a>
-            </div>
-        </li>
-    </ul>
-</nav>
-
-<section class="search-section card" id="buscar" style="display:none;">
-    <h2>Buscar Libros</h2>
-    <form id="searchForm">
-        <input type="text" id="searchQuery" placeholder="Título..." required/>
-        <input type="text" id="searchAuthor" placeholder="Autor..." />
-        <button type="submit">Buscar</button>
-    </form>
-    <div id="paginationControls"></div>
-    <div id="searchResults"></div>
-</section>
-
-<section class="filters-section card" style="display:none;">
-    <h2>Filtros en Mi Biblioteca</h2>
-    <input type="text" id="filterCategory" placeholder="Categoría..."/>
-    <button id="applyFilterBtn">Aplicar Filtro</button>
-</section>
-
-<section class="library-section card" id="mi-biblioteca" style="display:none;">
-    <h2>Mi Biblioteca</h2>
-    <div id="stats" class="subcard"></div>
-    <h3 id="recomendaciones" class="sub-h3">Recomendaciones</h3>
-    <div id="recommendations"></div>
-    <h3>Mis Libros</h3>
-    <div id="myShelf"></div>
-</section>
-
-<div id="toast"></div>
-<div class="spinner-overlay" id="spinnerOverlay">
-    <div class="spinner"></div>
-</div>
-
-<script src="JS/app.js"></script>
-</body>
+        <div id="footer-container"></div>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="JS/header-footer.js"></script>
+        <script src="JS/app.js"></script>
+    </body>
 </html>

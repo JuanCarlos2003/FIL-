@@ -1,0 +1,30 @@
+.container {
+    padding: 2rem;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 0.5rem;
+    text-align: center;
+}
+th {
+    background-color: #5c2a9d;
+    color: white;
+}
+.event {
+    text-align: left;
+}
+.event h3 {
+    margin: 0 0 0.2rem 0;
+    color: #333;
+}
+.event p {
+    margin: 0.2rem 0;
+    color: #666;
+}
