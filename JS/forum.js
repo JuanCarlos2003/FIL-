@@ -9,16 +9,14 @@ function updateCommentFormVisibility() {
     if (window.token && window.currentUsername) {
         // Hay sesión iniciada
         commentFormContainer.style.display = 'block';
-        commentFormContainer.classList.remove('no-session');
+        const commentForm = document.getElementById('commentForm');
+        commentForm.removeEventListener('submit', postComment);
+        commentForm.addEventListener('submit', postComment);
     } else {
         // No hay sesión
-        commentFormContainer.style.display = 'none'; 
-        // O:
-        // commentFormContainer.classList.add('no-session');
-        // Si quieres mostrar el mensaje de "inicia sesión" sin ocultar el contenedor
+        commentFormContainer.style.display = 'none';
     }
 }
-
 
 async function loadComments() {
     try {

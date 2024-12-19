@@ -77,7 +77,7 @@ function renderUserSection() {
     const userSection = document.getElementById('userSection');
     if (token && currentUsername) {
         userSection.innerHTML = `
-            <span style="font-weight:bold;">${currentUsername}</span>
+            <span style="font-weight:bold;">Bienvenido ${currentUsername}</span>
             <button id="logoutBtn" style="padding:5px 10px; background:#e74c3c; color:#fff; border:none; border-radius:4px; cursor:pointer;">Cerrar Sesión</button>
         `;
         document.getElementById('logoutBtn').addEventListener('click', logoutUser);

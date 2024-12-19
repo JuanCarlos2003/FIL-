@@ -1,8 +1,3 @@
-// Estas variables ya se definen en header-footer.js:
-// let token = null;
-// let currentUsername = null;
-// const API_URL = "http://localhost:3000";
-
 const authMessage = document.getElementById('authMessage');
 
 const searchForm = document.getElementById('searchForm');

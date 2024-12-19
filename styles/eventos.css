@@ -1,30 +1,76 @@
-.container {
-    padding: 2rem;
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
-table {
+
+h1 {
+    font-size: 2em;
+    color: #8753c9;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.filters label {
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.filters select,
+.filters button {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.filters button {
+    background-color: #8753c9;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.filters button:hover {
+    background-color: #5c2a9d;
+}
+
+#event-table {
     width: 100%;
     border-collapse: collapse;
-    margin: 2rem 0;
-    background: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
 }
-th, td {
+
+#event-table th,
+#event-table td {
+    padding: 10px;
+    text-align: left;
     border: 1px solid #ddd;
-    padding: 0.5rem;
-    text-align: center;
 }
-th {
+
+#event-table th {
     background-color: #5c2a9d;
     color: white;
 }
-.event {
-    text-align: left;
+
+#event-table tr:nth-child(even) {
+    background-color: #f9f9f9;
 }
-.event h3 {
-    margin: 0 0 0.2rem 0;
-    color: #333;
-}
-.event p {
-    margin: 0.2rem 0;
-    color: #666;
+
+#event-table tr:hover {
+    background-color: #f1f1f1;
+    transition: background-color 0.3s ease;
 }

@@ -192,6 +192,7 @@ header a:hover {
     background-image: url('../img/foto2.webp'); 
     background-size: cover;
     background-position: center;
+    background-attachment: fixed;
     background-blend-mode: multiply;
 }
 
