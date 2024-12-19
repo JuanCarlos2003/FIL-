@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIL+ - Perfil de Autor</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles/author-profile.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="header-container"></div>
+
+    <main>
+        <div class="container">
+            <section id="authorProfileSection">
+                <h2>Completa tu Perfil de Autor</h2>
+                <form id="authorProfileForm">
+                    <div class="form-group">
+                        <label for="authorName">Nombre completo del autor:</label>
+                        <input type="text" id="authorName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="authorGenre">Género literario principal:</label>
+                        <select id="authorGenre" required>
+                            <option value="">Selecciona un género</option>
+                            <option value="Novela">Novela</option>
+                            <option value="Poesía">Poesía</option>
+                            <option value="Cuento">Cuento</option>
+                            <option value="Ensayo">Ensayo</option>
+                            <option value="Teatro">Teatro</option>
+                            <option value="Infantil">Literatura Infantil</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="authorBio">Biografía breve:</label>
+                        <textarea id="authorBio" rows="5" required 
+                                placeholder="Cuéntanos sobre tu trayectoria literaria, influencias y estilo..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Guardar Perfil</button>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="JS/header-footer.js"></script>
+    <script src="JS/author-profile.js"></script>
+</body>
+</html>

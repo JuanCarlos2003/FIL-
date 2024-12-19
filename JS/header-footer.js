@@ -1,6 +1,7 @@
-const API_URL = "http://localhost:3000"; // Ajustar URL de tu API
+const API_URL = "http://localhost:3000";
 let token = null;
 let currentUsername = null;
+let isAuthor = false;
 
 document.addEventListener('DOMContentLoaded', () => {
     const header = `
@@ -24,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         </header>
     `;
+
     const footer = `
         <footer>
             <div class="footer-container">
@@ -59,15 +61,19 @@ document.addEventListener('DOMContentLoaded', () => {
         </footer>
     `;
 
+    // Insertar header y footer
     document.getElementById('header-container').innerHTML = header;
     document.getElementById('footer-container').innerHTML = footer;
 
-    // Recuperar token y username del localStorage si existen
+    // Recuperar datos del localStorage
     const savedToken = localStorage.getItem('token');
     const savedUsername = localStorage.getItem('username');
+    const savedIsAuthor = localStorage.getItem('isAuthor') === 'true';
+
     if (savedToken && savedUsername) {
         token = savedToken;
         currentUsername = savedUsername;
+        isAuthor = savedIsAuthor;
     }
 
     renderUserSection();
@@ -77,7 +83,10 @@ function renderUserSection() {
     const userSection = document.getElementById('userSection');
     if (token && currentUsername) {
         userSection.innerHTML = `
-            <span style="font-weight:bold;">Bienvenido ${currentUsername}</span>
+            <span style="font-weight:bold;">
+                Bienvenido ${currentUsername}
+                ${isAuthor ? '<span style="color: #4CAF50;">(Autor)</span>' : ''}
+            </span>
             <button id="logoutBtn" style="padding:5px 10px; background:#e74c3c; color:#fff; border:none; border-radius:4px; cursor:pointer;">Cerrar Sesión</button>
         `;
         document.getElementById('logoutBtn').addEventListener('click', logoutUser);
@@ -120,10 +129,33 @@ function showLoginModal() {
                 <input id="regUsername" type="text" required>
                 <label for="regPassword">Contraseña:</label>
                 <input id="regPassword" type="password" required>
+                
+                <div class="author-section">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="isAuthor"> Soy autor
+                        <span class="checkmark"></span>
+                    </label>
+                    <div id="authorCodeSection" style="display: none;">
+                        <label for="authorCode">Código de Autorización:</label>
+                        <input type="text" id="authorCode">
+                        <small style="display: block; color: #666; margin-top: 5px;">
+                            *Este código es proporcionado por los organizadores de la FIL
+                        </small>
+                    </div>
+                </div>
+
                 <button type="submit">Registrarse</button>
             </form>
             <p>¿Ya tienes cuenta? <a href="#" id="switchToLogin">Inicia sesión</a></p>
         `;
+
+        // Manejar la visibilidad del campo de código de autor
+        const isAuthorCheckbox = modal.querySelector('#isAuthor');
+        const authorCodeSection = modal.querySelector('#authorCodeSection');
+        isAuthorCheckbox.addEventListener('change', (e) => {
+            authorCodeSection.style.display = e.target.checked ? 'block' : 'none';
+        });
+
         modal.querySelector('#switchToLogin').addEventListener('click', () => {
             modal.querySelector('#modal-forms').innerHTML = `
                 <h2>Iniciar Sesión</h2>
@@ -153,31 +185,80 @@ function initModalEvents(modal, closeModal) {
             e.preventDefault();
             const username = modal.querySelector('#regUsername').value;
             const password = modal.querySelector('#regPassword').value;
+            const isAuthorChecked = modal.querySelector('#isAuthor')?.checked || false;
+            const authorCode = isAuthorChecked ? modal.querySelector('#authorCode').value : null;
+
+            if (isAuthorChecked && !authorCode) {
+                Swal.fire('Error', 'El código de autorización es requerido para registrarse como autor.', 'error');
+                return;
+            }
 
             try {
                 const res = await fetch(`${API_URL}/api/auth/register`, {
                     method: 'POST',
-                    headers: {'Content-Type':'application/json'},
-                    body: JSON.stringify({username, password})
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username,
+                        password,
+                        isAuthor: isAuthorChecked,
+                        authorCode: authorCode
+                    })
                 });
                 const data = await res.json();
+
                 if (data.error) {
                     Swal.fire('Error', data.error, 'error');
                 } else {
-                    Swal.fire('Éxito', data.message, 'success');
-                    // Cambiar a login
-                    modal.querySelector('#modal-forms').innerHTML = `
-                        <h2>Iniciar Sesión</h2>
-                        <form id="loginForm">
-                            <label for="logUsername">Usuario:</label>
-                            <input id="logUsername" type="text" required>
-                            <label for="logPassword">Contraseña:</label>
-                            <input id="logPassword" type="password" required>
-                            <button type="submit">Ingresar</button>
-                        </form>
-                        <p>¿No tienes cuenta? <a href="#" id="switchToRegister">Regístrate aquí</a></p>
-                    `;
-                    initModalEvents(modal, closeModal);
+                    if (isAuthorChecked) {
+                        // Si es autor, iniciar sesión automáticamente
+                        const loginRes = await fetch(`${API_URL}/api/auth/login`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ username, password })
+                        });
+                        const loginData = await loginRes.json();
+
+                        if (loginData.token) {
+                            // Guardar temporalmente los datos
+                            localStorage.setItem('token', loginData.token);
+                            localStorage.setItem('username', loginData.username);
+                            localStorage.setItem('isAuthor', 'true');
+                            localStorage.setItem('needsProfile', 'true');
+
+                            Swal.fire({
+                                title: '¡Registro exitoso!',
+                                text: 'Ahora completaremos tu perfil de autor',
+                                icon: 'success',
+                                showConfirmButton: true,
+                                confirmButtonText: 'Completar perfil',
+                                allowOutsideClick: false
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = 'author-profile.html';
+                                }
+                            });
+                        }
+                    } else {
+                        // Si no es autor, mostrar mensaje y formulario de login
+                        Swal.fire({
+                            title: '¡Registro exitoso!',
+                            text: 'Ya puedes iniciar sesión',
+                            icon: 'success'
+                        }).then(() => {
+                            modal.querySelector('#modal-forms').innerHTML = `
+                            <h2>Iniciar Sesión</h2>
+                            <form id="loginForm">
+                                <label for="logUsername">Usuario:</label>
+                                <input id="logUsername" type="text" value="${username}" required>
+                                <label for="logPassword">Contraseña:</label>
+                                <input id="logPassword" type="password" required>
+                                <button type="submit">Ingresar</button>
+                            </form>
+                            <p>¿No tienes cuenta? <a href="#" id="switchToRegister">Regístrate aquí</a></p>
+                        `;
+                            initModalEvents(modal, closeModal);
+                        });
+                    }
                 }
             } catch (err) {
                 Swal.fire('Error', 'Error de conexión con el servidor.', 'error');
@@ -194,8 +275,8 @@ function initModalEvents(modal, closeModal) {
             try {
                 const res = await fetch(`${API_URL}/api/auth/login`, {
                     method: 'POST',
-                    headers: {'Content-Type':'application/json'},
-                    body: JSON.stringify({username, password})
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
                 });
                 const data = await res.json();
                 if (data.error) {
@@ -203,15 +284,15 @@ function initModalEvents(modal, closeModal) {
                 } else {
                     token = data.token;
                     currentUsername = data.username;
-                    // Guardar token y username en localStorage
+                    isAuthor = data.isAuthor;
+
                     localStorage.setItem('token', token);
                     localStorage.setItem('username', currentUsername);
+                    localStorage.setItem('isAuthor', isAuthor);
 
                     Swal.fire('Éxito', 'Sesión iniciada.', 'success');
                     renderUserSection();
                     closeModal();
-
-                    // Recargar la página después de iniciar sesión exitosamente
                     window.location.reload();
                 }
             } catch (err) {
@@ -224,13 +305,13 @@ function initModalEvents(modal, closeModal) {
 function logoutUser() {
     token = null;
     currentUsername = null;
-    // Eliminar de localStorage
+    isAuthor = false;
+
     localStorage.removeItem('token');
     localStorage.removeItem('username');
+    localStorage.removeItem('isAuthor');
 
     Swal.fire('Sesión cerrada', 'Has cerrado sesión correctamente.', 'info');
     renderUserSection();
-
-    // Recargar la página al cerrar sesión
     window.location.reload();
 }

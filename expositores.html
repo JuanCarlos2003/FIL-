@@ -1,85 +1,67 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>FIL+ - Página Principal</title>
-        <link rel="stylesheet" href="styles/styles.css">
-        <link rel="stylesheet" href="styles/modal.css">
-        <link rel="stylesheet" href="styles/expo.css">
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    </head>
-    <body>
-        <div id="header-container"></div>
-        <main>
-            <div class="container">
-                <div class="editorial">
-                    <img src="img/editAlfaguara.jpg" alt="Editorial Alfaguara">
-                    <h2>Editorial Alfaguara</h2>
-                    <p>Editorial Alfaguara es una de las editoriales más reconocidas en el ámbito de la literatura en español. Fundada en 1964, ha publicado a algunos de los autores más importantes de habla hispana y ha recibido numerosos premios literarios.</p>
-                    <p><strong>Libro Representativo:</strong> "La Casa de los Espíritus" de Isabel Allende</p>
-                    <div class="clear"></div>
-                </div>
-        
-                <div class="editorial">
-                    <img src="img/editPlaneta.jpg" alt="Editorial Planeta">
-                    <h2>Editorial Planeta</h2>
-                    <p>Editorial Planeta es una de las editoriales más grandes de habla hispana y cuenta con una larga trayectoria en la publicación de obras literarias, ensayos y libros de divulgación. Fundada en 1949, se ha consolidado como un referente en el mundo editorial.</p>
-                    <p><strong>Libro Representativo:</strong> "El Laberinto de los Espíritus" de Carlos Ruiz Zafón</p>
-                    <div class="clear"></div>
-                </div>
-        
-                <div class="editorial">
-                    <img src="img/editAnagrama.png" alt="Editorial Anagrama">
-                    <h2>Editorial Anagrama</h2>
-                    <p>Editorial Anagrama, fundada en 1969, se caracteriza por su apuesta por la literatura de calidad, tanto de autores contemporáneos como de clásicos modernos. Ha sido galardonada con numerosos premios y es conocida por su rigor editorial.</p>
-                    <p><strong>Libro Representativo:</strong> "Patria" de Fernando Aramburu</p>
-                    <div class="clear"></div>
-                </div>
-        
-                <div class="editorial">
-                    <img src="img/editTusquets.jpg" alt="Editorial Tusquets">
-                    <h2>Editorial Tusquets</h2>
-                    <p>Editorial Tusquets es conocida por su enfoque en la literatura de ficción y no ficción de alta calidad. Fundada en 1969, ha publicado a destacados autores de la literatura española e internacional y ha sido reconocida por su excelencia editorial.</p>
-                    <p><strong>Libro Representativo:</strong> "La Sombra del Viento" de Carlos Ruiz Zafón</p>
-                    <div class="clear"></div>
-                </div>
-        
-                <div class="editorial">
-                    <img src="img/editsm.jpeg" alt="Editorial SM">
-                    <h2>Editorial SM</h2>
-                    <p>Editorial SM es una de las principales editoriales de literatura infantil y juvenil en español. Fundada en 1937, ha destacado por su compromiso con la educación y la cultura, publicando obras que fomentan el hábito de la lectura entre los jóvenes.</p>
-                    <p><strong>Libro Representativo:</strong> "El Principito" de Antoine de Saint-Exupéry</p>
-                    <div class="clear"></div>
-                </div>
-        
-                <div class="editorial">
-                    <img src="img/editAlianza.jpg" alt="Editorial Alianza">
-                    <h2>Editorial Alianza</h2>
-                    <p>Alianza Editorial es una editorial española fundada en 1966 por José Ortega Spottorno. Alianza sostiene que su oferta sujeta a toda clase de lectores, «desde el interesado en la literatura hasta el universitario que busca una monografía altamente especializada».</p>
-                    <p><strong>Libro Representativo:</strong> "Biblioteca De La Medianoche "- Matt Haig</p>
-                    <div class="clear"></div>
-                </div>
-            </div>
-        </main>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIL+ - Expositores y Autores</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles/modal.css">
+    <link rel="stylesheet" href="styles/expo.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="header-container"></div>
 
-        <div id="footer-container"></div>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var faqItems = document.querySelectorAll('.faq-item h3');
-                faqItems.forEach(function(item) {
-                    item.addEventListener('click', function() {
-                        var content = this.nextElementSibling;
-                        if (content.style.display === 'block') {
-                            content.style.display = 'none';
-                        } else {
-                            content.style.display = 'block';
-                        }
-                    });
-                });
-            });
-        </script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="JS/header-footer.js"></script>
-    </body>
+    <main>
+        <div class="container">
+            <!-- Sección de Autores Emergentes -->
+            <section id="emergingAuthors" class="authors-section">
+                <h2>Autores Emergentes</h2>
+                <div id="authorsContainer" class="authors-grid">
+                    <!-- Los autores se cargarán aquí dinámicamente -->
+                </div>
+            </section>
+
+            <!-- Sección de Publicaciones -->
+            <section id="publications" class="publications-section">
+                <h2>Publicaciones Recientes</h2>
+                <div id="publicationsContainer" class="publications-grid">
+                    <!-- Las publicaciones se cargarán aquí dinámicamente -->
+                </div>
+            </section>
+
+            <!-- Sección para publicar (solo visible para autores) -->
+            <section id="authorPublishSection" class="author-publish-section" style="display:none;">
+                <h2>Crear Nueva Publicación</h2>
+                <form id="publishForm" class="publish-form">
+                    <input type="text" id="pubTitle" placeholder="Título de la publicación" required>
+                    <textarea id="pubDescription" placeholder="Descripción de la publicación" required></textarea>
+                    <select id="pubGenre" required>
+                        <option value="">Selecciona un género</option>
+                        <option value="Novela">Novela</option>
+                        <option value="Poesía">Poesía</option>
+                        <option value="Cuento">Cuento</option>
+                        <option value="Ensayo">Ensayo</option>
+                    </select>
+                    <input type="file" id="pubImage" accept="image/*">
+                    <button type="submit">Publicar</button>
+                </form>
+            </section>
+            
+
+            <!-- Sección de Editoriales (tu contenido existente) -->
+            <section id="publishers" class="publishers-section">
+                <h2>Editoriales Participantes</h2>
+                <!-- Aquí va tu contenido existente de editoriales -->
+                [Tu contenido actual de editoriales...]
+            </section>
+        </div>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="JS/header-footer.js"></script>
+    <script src="JS/expositores.js"></script>
+</body>
 </html>
