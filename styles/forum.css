@@ -1,0 +1,154 @@
+/* Estilos para la página individual del foro */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+#forumDetails {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#forumDetails h1 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.forum-description {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.forum-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    font-size: 14px;
+    color: #777;
+}
+
+.forum-meta span {
+    background-color: #f5f5f5;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+/* Lista de comentarios */
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.comment-card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.comment-author {
+    color: #333;
+    font-size: 16px;
+}
+
+.comment-date {
+    color: #777;
+    font-size: 14px;
+}
+
+.comment-text {
+    color: #444;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.no-comments {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    padding: 20px;
+}
+
+/* Formulario de comentarios */
+#commentFormContainer {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-top: 20px;
+}
+
+#commentFormContainer h3 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+#commentForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#commentForm textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 16px;
+    resize: vertical;
+    transition: border-color 0.3s;
+}
+
+#commentForm textarea:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+#commentForm button {
+    align-self: flex-end;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+#commentForm button:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .forum-meta {
+        gap: 10px;
+    }
+
+    #commentForm button {
+        width: 100%;
+    }
+}

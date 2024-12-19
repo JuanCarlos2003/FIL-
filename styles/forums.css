@@ -1,0 +1,135 @@
+/* Estilos para la página de lista de foros */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+#newForumButtonContainer {
+    margin-bottom: 30px;
+    text-align: right;
+}
+
+.primary-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.primary-button:hover {
+    background-color: #0056b3;
+}
+
+/* Formulario de nuevo foro */
+#newForumForm {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#newForumForm h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+#forumForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#forumForm input,
+#forumForm select,
+#forumForm textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+#forumForm textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+#forumForm button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#forumForm button:hover {
+    background-color: #218838;
+}
+
+/* Lista de foros */
+#forumsList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.forum-card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.forum-card h3 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.forum-card p {
+    color: #666;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.forum-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.forum-meta span {
+    background-color: #f5f5f5;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #777;
+}
+
+.forum-card button {
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.forum-card button:hover {
+    background-color: #0056b3;
+}
