@@ -1,101 +1,173 @@
-/* Modal Styling */
 .modal {
+    display: block;
     position: fixed;
     z-index: 1000;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-color: rgba(0,0,0,0.5);
 }
 
 .modal-content {
-    background: #fff;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.5);
-    width: 90%;
-    max-width: 450px;
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 500px;
     position: relative;
-    text-align: center;
-    color: #4B0082; /* Morado */
 }
 
-.modal-content h2 {
-    margin: 0 0 20px;
-    font-size: 1.8rem;
-    color: #4B0082; /* Morado */
-    font-weight: bold;
-}
-
-.modal-content label {
-    display: block;
-    text-align: left;
-    margin: 10px 0 5px;
-    font-weight: bold;
-    color: #4B0082; /* Morado */
-}
-
-.modal-content input {
-    width: 98%; 
-    padding: 12px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
-    text-align: center; /* Centrar texto */
-    margin-left: auto; /* Centrar horizontalmente */
-    margin-right: auto;
-}
-
-.modal-content input:focus {
-    border-color: #4B0082; /* Morado */
-    outline: none;
-}
-
-.modal-content button {
-    background: #6A0DAD; /* Tonalidad de morado */
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 25px;
-    font-size: 1rem;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background-color 0.3s ease;
-}
-
-.modal-content button:hover {
-    background: #4B0082; /* Morado más oscuro */
-}
-
-.modal-content .close {
+.close {
     position: absolute;
-    right: 15px;
-    top: 15px;
-    font-size: 1.5rem;
-    color: #888;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-
-.modal-content .close:hover {
-    color: #4B0082; /* Morado */
-}
-
-.modal-content a {
-    color: #6A0DAD; /* Morado claro */
-    text-decoration: none;
+    right: 20px;
+    top: 10px;
+    font-size: 28px;
     font-weight: bold;
-    margin-top: 10px;
-    display: inline-block;
+    cursor: pointer;
+    color: #aaa;
 }
 
-.modal-content a:hover {
+.close:hover {
+    color: #000;
+}
+
+#modal-forms {
+    padding: 20px;
+}
+
+#modal-forms h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+#modal-forms form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#modal-forms label {
+    font-weight: bold;
+    color: #333;
+}
+
+#modal-forms input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+#modal-forms button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#modal-forms button:hover {
+    background-color: #0056b3;
+}
+
+#modal-forms p {
+    margin-top: 15px;
+    text-align: center;
+}
+
+#modal-forms a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+#modal-forms a:hover {
     text-decoration: underline;
+}
+
+.author-section {
+    margin: 15px 0;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+
+.checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    user-select: none;
+}
+
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 4px;
+}
+
+.checkbox-container:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+.checkbox-container input:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.checkbox-container .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+#authorCodeSection {
+    margin-top: 10px;
+    padding: 10px;
+    border-left: 3px solid #2196F3;
+    background: #fff;
+}
+
+.btn-login {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-login:hover {
+    background-color: #0056b3;
 }
