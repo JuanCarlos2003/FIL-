@@ -1,106 +1,67 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>FIL+ - Página Principal</title>
-        <link rel="stylesheet" href="styles/styles.css">
-        <link rel="stylesheet" href="styles/modal.css">
-        <link rel="stylesheet" href="styles/comunidad.css">
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    </head>
-    <body>
-        <div id="header-container"></div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIL+ - Foros</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles/forums.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="header-container"></div>
 
-        <main>
-            <div class="container">
-                <div class="cards">
-                    <div class="card">
-                        <h3>Juan Pérez</h3>
-                        <p>Me encantó la variedad de actividades en la feria del libro. Encontré libros que no conocía y disfruté mucho las conferencias.</p>
-                    </div>
-                    <div class="card">
-                        <h3>María López</h3>
-                        <p>Las actividades infantiles fueron perfectas para mis hijos. Pasaron un día increíble y aprendieron mucho.</p>
-                    </div>
-                    <div class="card">
-                        <h3>Carlos García</h3>
-                        <p>La organización fue excelente y las presentaciones de libros muy interesantes. Definitivamente regresaré el próximo año.</p>
-                    </div>
-                    <div class="card">
-                        <h3>Luisa Fernández</h3>
-                        <p>Disfruté mucho las firmas de libros. Pude conocer a mis autores favoritos y obtener sus autógrafos.</p>
-                    </div>
-                    <div class="card">
-                        <h3>Pedro Martínez</h3>
-                        <p>Las charlas sobre crítica literaria fueron muy enriquecedoras. Aprendí nuevas perspectivas sobre mis libros favoritos.</p>
-                    </div>
-                    <div class="card">
-                        <h3>Ana Gómez</h3>
-                        <p>Las proyecciones de películas basadas en novelas fueron un excelente complemento a la feria. Me encantó la experiencia.</p>
-                    </div>
-                </div>
-        
-                <div class="faq">
-                    <h2>Preguntas Frecuentes</h2>
-                    <div class="faq-item">
-                        <h3>¿Dónde se llevará a cabo la feria del libro?</h3>
-                        <p>La feria del libro se llevará a cabo en Expo Guadalajara, Jalisco, México</p>
-                    </div>
-                    <div class="faq-item">
-                        <h3>¿Cuál es el horario de la feria del libro?</h3>
-                        <p>La feria del libro estará abierta al público desde las 9:00 AM hasta las 8:00 PM todos los días del evento.</p>
-                    </div>
-                    <div class="faq-item">
-                        <h3>¿Es necesario comprar boletos para asistir a las actividades?</h3>
-                        <p>La entrada a la feria del libro es gratuita, pero algunas actividades pueden requerir inscripción previa debido al cupo limitado.</p>
-                    </div>
-                    <div class="faq-item">
-                        <h3>¿Hay estacionamiento disponible en el lugar del evento?</h3>
-                        <p>Sí, el lugar del evento cuenta con un amplio estacionamiento gratuito para todos los asistentes.</p>
-                    </div>
-                    <div class="faq-item">
-                        <h3>¿Se pueden comprar libros durante la feria?</h3>
-                        <p>Sí, habrá stands de diversas editoriales donde se podrán comprar libros directamente durante todo el evento.</p>
-                    </div>
-                </div>
+    <main>
+        <div class="container">
+            <h1>Foros de Discusión</h1>
+            
+            <!-- Botón para crear nuevo foro -->
+            <div id="newForumButtonContainer" style="display:none;">
+                <button id="newForumButton" class="primary-button">Crear Nuevo Foro</button>
             </div>
-            <!-- Sección de Foro -->
-            <section class="forum-section">
-                <h2>Comunidad - Foro</h2>
-                <div id="commentsContainer">
-                    <!-- Comentarios cargados vía JS -->
-                </div>
-                
-                <div id="commentFormContainer" style="display:none;">
-                    <h3>Agregar un comentario</h3>
-                    <form id="commentForm">
-                        <textarea id="commentText" placeholder="Escribe tu comentario..." required></textarea>
-                        <button type="submit">Publicar</button>
-                    </form>
-                </div>
-            </section>
-        </main>
 
-        <div id="footer-container"></div>
+            <!-- Formulario para crear nuevo foro (inicialmente oculto) -->
+            <div id="newForumForm" style="display:none;">
+                <h2>Crear Nuevo Foro</h2>
+                <form id="forumForm">
+                    <input type="text" id="forumName" placeholder="Nombre del foro" required>
+                    <select id="forumGenre" required>
+                        <option value="">Selecciona un género</option>
+                        <option value="Novela">Novela</option>
+                        <option value="Ciencia Ficción">Ciencia Ficción</option>
+                        <option value="Poesía">Poesía</option>
+                        <option value="Evento">Evento FIL</option>
+                    </select>
+                    <select id="forumTheme" required>
+                        <option value="">Selecciona un tema</option>
+                        <option value="Literatura Moderna">Literatura Moderna</option>
+                        <option value="Feminismo">Feminismo</option>
+                        <option value="Historia">Historia</option>
+                        <option value="Filosofía">Filosofía</option>
+                        <option value="Encuentros">Encuentros FIL</option>
+                    </select>
+                    <select id="forumLanguage" required>
+                        <option value="">Selecciona un idioma</option>
+                        <option value="Español">Español</option>
+                        <option value="Inglés">Inglés</option>
+                        <option value="Francés">Francés</option>
+                    </select>
+                    <textarea id="forumDescription" placeholder="Descripción del foro" required></textarea>
+                    <button type="submit">Crear Foro</button>
+                </form>
+            </div>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var faqItems = document.querySelectorAll('.faq-item h3');
-                faqItems.forEach(function(item) {
-                    item.addEventListener('click', function() {
-                        var content = this.nextElementSibling;
-                        if (content.style.display === 'block') {
-                            content.style.display = 'none';
-                        } else {
-                            content.style.display = 'block';
-                        }
-                    });
-                });
-            });
-        </script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="JS/header-footer.js"></script>
-        <script src="JS/forum.js"></script>
-    </body>
+            <!-- Lista de foros -->
+            <div id="forumsList">
+                <!-- Los foros se cargarán aquí dinámicamente -->
+            </div>
+        </div>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="JS/header-footer.js"></script>
+    <script src="JS/forums.js"></script>
+</body>
 </html>
