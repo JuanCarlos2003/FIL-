@@ -18,7 +18,6 @@
                     <label for="fecha-select">Fecha: </label>
                     <input type="date" id="fecha-select" min="2024-11-25" max="2024-12-03">
 
-                    
                     <label for="hora-select">Hora: </label>
                     <select id="hora-select">
                         <option value="">Todas</option>
@@ -31,19 +30,52 @@
                 <table id="event-table">
                     <thead>
                         <tr>
-                        <th>Fecha</th>
-                        <th>Hora</th>
-                        <th>Título</th>
-                        <th>Descripción</th>
-                        <th>Lugar</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Título</th>
+                            <th>Descripción</th>
+                            <th>Lugar</th>
                         </tr>
                     </thead>
                     <tbody>
                         <!-- Se llenará dinámicamente -->
                     </tbody>
-                </table>            
+                </table>     
+            </section>
+
+            <section id="user-events-section">
+                <h2>Eventos a los que planeas asistir</h2>
+                <div id="no-user-events" style="display:none;">No hay eventos por asistir</div>
+                <table id="user-events-table" style="display:none;">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Título</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Se llenará dinámicamente -->
+                    </tbody>
+                </table>
             </section>
         </main>
+
+        <!-- Modal -->
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span id="close-modal" class="close">&times;</span>
+                <h2 id="modal-title"></h2>
+                <p><strong>Fecha:</strong> <span id="modal-fecha"></span></p>
+                <p><strong>Hora:</strong> <span id="modal-hora"></span></p>
+                <p><strong>Lugar:</strong> <span id="modal-lugar"></span></p>
+                <p><strong>Descripción:</strong></p>
+                <p id="modal-descripcion"></p>
+                <button id="asistir-btn">Asistir</button>
+            </div>
+        </div>
+
         <div id="footer-container"></div>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="JS/header-footer.js"></script>
