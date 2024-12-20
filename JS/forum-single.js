@@ -1,4 +1,5 @@
 let currentForumId = null;
+let currentForumCreator = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -9,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loadComments();
         updateCommentFormVisibility();
     } else {
-        window.location.href = 'forums.html';
+        window.location.href = 'index.html'; 
     }
 });
 
@@ -23,7 +24,7 @@ function getAuthInfo() {
 function updateCommentFormVisibility() {
     const commentFormContainer = document.getElementById('commentFormContainer');
     const { token } = getAuthInfo();
-    
+
     if (token) {
         commentFormContainer.style.display = 'block';
         const commentForm = document.getElementById('commentForm');
@@ -41,15 +42,76 @@ async function loadForumDetails() {
             throw new Error('Error al cargar los detalles del foro');
         }
         const forum = await response.json();
+        currentForumCreator = forum.createdBy;
         displayForumDetails(forum);
+        updateDeleteButtonVisibility();
         // Actualizar el título de la página
         document.title = `FIL+ - ${forum.name}`;
     } catch (error) {
         console.error('Error:', error);
         Swal.fire('Error', 'No se pudo cargar el foro', 'error');
         setTimeout(() => {
-            window.location.href = 'forums.html';
+            window.location.href = 'forum.html';
         }, 2000);
+    }
+}
+
+function updateDeleteButtonVisibility() {
+    const { username } = getAuthInfo();
+    const detailsContainer = document.getElementById('forumDetails');
+    const existingButton = document.querySelector('.delete-forum-button');
+
+    if (existingButton) {
+        existingButton.remove();
+    }
+
+    if (username && username === currentForumCreator) {
+        const deleteButton = document.createElement('button');
+        deleteButton.className = 'delete-forum-button';
+        deleteButton.innerText = 'Eliminar Foro';
+        deleteButton.onclick = handleForumDelete;
+        detailsContainer.appendChild(deleteButton);
+    }
+}
+
+async function handleForumDelete() {
+    const { token } = getAuthInfo();
+    
+    const result = await Swal.fire({
+        title: '¿Estás seguro?',
+        text: "No podrás revertir esta acción. Se eliminarán todos los comentarios del foro.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    });
+
+    if (result.isConfirmed) {
+        try {
+            const response = await fetch(`${API_URL}/api/forums/${currentForumId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al eliminar el foro');
+            }
+
+            await Swal.fire(
+                'Eliminado',
+                'El foro ha sido eliminado correctamente.',
+                'success'
+            );
+
+            window.location.href = 'index.html'; 
+        } catch (error) {
+            console.error('Error:', error);
+            Swal.fire('Error', 'No se pudo eliminar el foro', 'error');
+        }
     }
 }
 
@@ -72,7 +134,10 @@ function displayForumDetails(forum) {
             <span>Fecha: ${createdDate}</span>
         </div>
     `;
+
+    updateDeleteButtonVisibility();
 }
+
 
 async function loadComments() {
     try {
@@ -106,7 +171,7 @@ function displayComments(comments) {
         .forEach(comment => {
             const commentElement = document.createElement('div');
             commentElement.className = 'comment-card';
-            
+
             const date = new Date(comment.timestamp);
             const formattedDate = date.toLocaleDateString('es-ES', {
                 year: 'numeric',
@@ -123,7 +188,7 @@ function displayComments(comments) {
                 </div>
                 <p class="comment-text">${comment.text}</p>
             `;
-            
+
             commentsList.appendChild(commentElement);
         });
 
@@ -134,7 +199,7 @@ async function handleCommentSubmit(e) {
     e.preventDefault();
 
     const { token, username } = getAuthInfo();
-    
+
     if (!token) {
         Swal.fire('Error', 'Debes iniciar sesión para comentar', 'error');
         return;
