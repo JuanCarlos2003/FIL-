@@ -1,5 +1,3 @@
-const authMessage = document.getElementById('authMessage');
-
 const searchForm = document.getElementById('searchForm');
 const searchQueryInput = document.getElementById('searchQuery');
 const searchAuthorInput = document.getElementById('searchAuthor');
@@ -9,31 +7,55 @@ const paginationControls = document.getElementById('paginationControls');
 const myShelf = document.getElementById('myShelf');
 const recommendationsDiv = document.getElementById('recommendations');
 const statsDiv = document.getElementById('stats');
+const readBooksSection = document.getElementById('readBooksSection');
+const readBooksList = document.getElementById('readBooksList');
+const booksReadCountSpan = document.getElementById('booksReadCount');
+const pagesReadCountSpan = document.getElementById('pagesReadCount');
 
 const toast = document.getElementById('toast');
 const spinnerOverlay = document.getElementById('spinnerOverlay');
 
 const filterCategoryInput = document.getElementById('filterCategory');
 const applyFilterBtn = document.getElementById('applyFilterBtn');
+const filterStatusSelect = document.getElementById('filterStatus');
 
 const navbar = document.getElementById('navbar');
 
+const editModal = document.getElementById('editModal');
+const editModalClose = document.getElementById('editModalClose');
+const editModalTitle = document.getElementById('editModalTitle');
+const editModalAuthors = document.getElementById('editModalAuthors');
+const editModalThumbnail = document.getElementById('editModalThumbnail');
+const editModalReview = document.getElementById('editModalReview');
+const editModalTags = document.getElementById('editModalTags');
+const editModalRating = document.getElementById('editModalRating');
+const saveEditBtn = document.getElementById('saveEditBtn');
+
+const tagsSpinner = document.getElementById('tagsSpinner');
+const tagsList = document.getElementById('tagsList');
+
+let currentEditBookId = null;
+let currentEditRating = 0;
 let currentSearchPage = 1;
 let currentSearchQuery = '';
 let currentSearchAuthor = '';
 
-// Mostrar u ocultar secciones según el estado de la sesión
+// Asegurar que el modal esté oculto al inicio
 document.addEventListener('DOMContentLoaded', () => {
+    editModal.style.display = 'none';
     updateUIBasedOnSession();
 });
 
-// Actualiza la interfaz en función de si hay sesión iniciada o no
+// Cerrar modal edición
+editModalClose.addEventListener('click', () => editModal.style.display = 'none');
+window.addEventListener('click', (e)=> {
+    if(e.target === editModal) editModal.style.display='none';
+});
+
 function updateUIBasedOnSession() {
-    // Mostrar la sección de búsqueda de libros siempre
     const searchSection = document.querySelector('.search-section');
     if (searchSection) searchSection.style.display = 'block';
 
-    // Si hay token (sesión iniciada), mostrar navbar, filtros y biblioteca
     if (token && currentUsername) {
         if (navbar) navbar.style.display = 'block';
         const filtersSec = document.querySelector('.filters-section');
@@ -41,12 +63,11 @@ function updateUIBasedOnSession() {
         if (filtersSec) filtersSec.style.display = 'block';
         if (librarySec) librarySec.style.display = 'block';
 
-        // Cargar datos iniciales de la biblioteca si se desea
-        loadMyShelf();
+        loadMyShelfWithFilters();
         loadStats();
         loadRecommendations();
+        loadAllTags(); // Cargar las etiquetas del usuario
     } else {
-        // Si no hay sesión, ocultar navbar, filtros y biblioteca
         if (navbar) navbar.style.display = 'none';
         const filtersSec = document.querySelector('.filters-section');
         const librarySec = document.querySelector('.library-section');
@@ -55,7 +76,6 @@ function updateUIBasedOnSession() {
     }
 }
 
-// Mostrar notificaciones
 function showToast(message) {
     toast.textContent = message;
     toast.style.display = 'block';
@@ -64,12 +84,10 @@ function showToast(message) {
     }, 3000);
 }
 
-// Mostrar/ocultar spinner
 function showSpinner(show) {
     spinnerOverlay.style.display = show ? 'flex' : 'none';
 }
 
-// Evento de búsqueda de libros
 if (searchForm) {
     searchForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -94,7 +112,6 @@ async function searchBooksAndDisplay() {
     }
 }
 
-// Paginación
 function displayPagination(total) {
     paginationControls.innerHTML = '';
     const totalPages = Math.ceil(total/10);
@@ -117,7 +134,6 @@ function displayPagination(total) {
     }
 }
 
-// Mostrar resultados de búsqueda
 function displaySearchResults(books, total) {
     searchResults.innerHTML = '';
     if (!books || books.length === 0) {
@@ -132,7 +148,6 @@ function displaySearchResults(books, total) {
     displayPagination(total);
 }
 
-// Crear tarjeta de libro
 function createBookCard(book, inShelf = true) {
     const card = document.createElement('div');
     card.className = 'book-card';
@@ -141,39 +156,25 @@ function createBookCard(book, inShelf = true) {
         <h3>${book.title}</h3>
         <p>${book.authors}</p>
         ${book.pages ? `<p>Páginas: ${book.pages}</p>` : ''}
-        ${book.publisher ? `<p>Editorial: ${book.publisher}</p>` : ''}
-        ${book.publishedDate ? `<p>Publicado: ${book.publishedDate}</p>` : ''}
     `;
 
     if (!inShelf) {
-        // Botón para agregar a la biblioteca
         const btn = document.createElement('button');
         btn.textContent = 'Agregar a mi biblioteca';
         btn.addEventListener('click', () => addToShelf(book));
         card.appendChild(btn);
     } else {
-        // Si está en la estantería, mostrar rating, reseña, tags, etc.
-        const ratingDiv = createStarRating(book);
+        const ratingDiv = document.createElement('div');
+        ratingDiv.style.marginTop = '10px';
+        const currentRating = book.rating || 0;
+        for (let i=1; i<=5; i++) {
+            const star = document.createElement('span');
+            star.className = 'star' + (i<=currentRating?' selected':'');
+            star.textContent = '★';
+            ratingDiv.appendChild(star);
+        }
         card.appendChild(ratingDiv);
 
-        // Reseña
-        const reviewInput = document.createElement('textarea');
-        reviewInput.placeholder = "Escribe una reseña...";
-        reviewInput.value = book.review || "";
-        reviewInput.addEventListener('change', () => updateReview(book.book_id, reviewInput.value));
-        card.appendChild(reviewInput);
-
-        // Tags
-        const tagsInput = document.createElement('input');
-        tagsInput.placeholder = "Etiquetas (separadas por coma)";
-        tagsInput.value = (book.tags || []).join(", ");
-        tagsInput.addEventListener('change', () => {
-            const tags = tagsInput.value.split(',').map(t => t.trim()).filter(t=>t);
-            updateTags(book.book_id, tags);
-        });
-        card.appendChild(tagsInput);
-
-        // Marcar terminado
         if(!book.finishedDate){
             const finishBtn = document.createElement('button');
             finishBtn.textContent = "Marcar como leído";
@@ -183,19 +184,24 @@ function createBookCard(book, inShelf = true) {
             const finishedP = document.createElement('p');
             finishedP.textContent = `Terminado el: ${book.finishedDate}`;
             card.appendChild(finishedP);
+
+            // Botón compartir
+            const shareBtn = document.createElement('button');
+            shareBtn.textContent = "Compartir";
+            shareBtn.addEventListener('click', () => {
+                const shareLink = `https://books.google.com/books?id=${book.book_id}`;
+                navigator.clipboard.writeText(shareLink).then(()=>{
+                    showToast("Enlace copiado al portapapeles");
+                });
+            });
+            card.appendChild(shareBtn);
         }
 
-        // Compartir
-        const shareBtn = document.createElement('button');
-        shareBtn.textContent = "Compartir";
-        shareBtn.addEventListener('click', () => {
-            const shareLink = `${window.location.origin}?bookId=${book.book_id}`;
-            navigator.clipboard.writeText(shareLink);
-            showToast("Enlace copiado al portapapeles");
-        });
-        card.appendChild(shareBtn);
+        const editBtn = document.createElement('button');
+        editBtn.textContent = "Editar detalles";
+        editBtn.addEventListener('click', () => openEditModal(book));
+        card.appendChild(editBtn);
 
-        // Botón eliminar
         const delBtn = document.createElement('button');
         delBtn.textContent = "Eliminar";
         delBtn.style.background = "red";
@@ -207,27 +213,75 @@ function createBookCard(book, inShelf = true) {
     return card;
 }
 
-// Crear rating con estrellas
-function createStarRating(book) {
-    const ratingContainer = document.createElement('div');
-    ratingContainer.style.marginTop = '10px';
+function openEditModal(book) {
+    // Solo abre si hay datos
+    if (!book || !book.book_id) return;
+    currentEditBookId = book.book_id;
+    editModalTitle.textContent = book.title || '';
+    editModalAuthors.textContent = book.authors || '';
+    editModalThumbnail.src = book.thumbnail || '';
+    editModalReview.value = book.review || "";
+    editModalTags.value = (book.tags || []).join(", ");
+    currentEditRating = book.rating || 0;
 
-    const currentRating = book.rating || 0;
-
-    for (let i=1; i<=5; i++) {
-        const star = document.createElement('span');
-        star.className = 'star' + (i<=currentRating?' selected':'');
-        star.textContent = '★';
-        star.addEventListener('click', () => updateRating(book.book_id, i));
-        star.addEventListener('mouseover', ()=>star.style.color='#f1c40f');
-        star.addEventListener('mouseout', ()=>star.classList.contains('selected')?star.style.color='#f1c40f':star.style.color='#ccc');
-        ratingContainer.appendChild(star);
-    }
-
-    return ratingContainer;
+    renderEditModalRating();
+    editModal.style.display = 'block';
 }
 
-// Agregar libro a la estantería
+function renderEditModalRating() {
+    editModalRating.innerHTML = '';
+    for (let i=1; i<=5; i++) {
+        const star = document.createElement('span');
+        star.className = 'star' + (i<=currentEditRating ? ' selected' : '');
+        star.textContent = '★';
+        star.addEventListener('click', ()=> {
+            currentEditRating = i;
+            renderEditModalRating();
+        });
+        editModalRating.appendChild(star);
+    }
+}
+
+saveEditBtn.addEventListener('click', async () => {
+    if (!currentEditBookId || !token) return;
+
+    const review = editModalReview.value.trim();
+    const tags = editModalTags.value.split(',').map(t=>t.trim()).filter(t=>t);
+
+    showSpinner(true);
+
+    await fetch(`${API_URL}/api/shelf/review`, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json','Authorization':`Bearer ${token}`},
+        body: JSON.stringify({bookId: currentEditBookId, review: review || ""})
+    });
+
+    await fetch(`${API_URL}/api/shelf/tags`, {
+        method:'POST',
+        headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`},
+        body: JSON.stringify({bookId: currentEditBookId, tags})
+    });
+
+    if (currentEditRating > 0) {
+        await fetch(`${API_URL}/api/shelf/rate`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ bookId: currentEditBookId, rating: currentEditRating })
+        });
+    }
+
+    showSpinner(false);
+    showToast("Detalles del libro actualizados.");
+    editModal.style.display = 'none';
+    loadMyShelfWithFilters();
+    loadStats();
+    loadRecommendations();
+    loadAllTags(); // refrescar las etiquetas disponibles
+});
+
 async function addToShelf(book) {
     if(!token) {
         showToast("Debes iniciar sesión.");
@@ -248,13 +302,18 @@ async function addToShelf(book) {
         showToast(data.error);
     } else {
         showToast(data.message);
-        loadMyShelf();
+        loadMyShelfWithFilters();
         loadStats();
         loadRecommendations();
+        loadAllTags();
     }
 }
 
-// Cargar estantería
+function loadMyShelfWithFilters() {
+    const category = filterCategoryInput.value.trim();
+    loadMyShelf(category);
+}
+
 async function loadMyShelf(category='') {
     if(!token) return;
     showSpinner(true);
@@ -269,69 +328,56 @@ async function loadMyShelf(category='') {
     displayMyShelf(books);
 }
 
-// Mostrar estantería
 function displayMyShelf(books) {
     myShelf.innerHTML = '';
-    if (books.length === 0) {
-        myShelf.innerHTML = '<p>No hay libros en tu biblioteca.</p>';
-        return;
-    }
-    books.forEach(book => {
-        const card = createBookCard(book, true);
-        myShelf.appendChild(card);
-    });
-}
+    readBooksList.innerHTML = '';
 
-// Actualizar calificación
-async function updateRating(bookId, rating) {
-    if(!token) {
-        showToast("Debes iniciar sesión.");
+    const statusFilter = filterStatusSelect.value;
+    let filteredBooks = books;
+    if(statusFilter === 'read') {
+        filteredBooks = books.filter(b => b.finishedDate);
+    } else if (statusFilter === 'unread') {
+        filteredBooks = books.filter(b => !b.finishedDate);
+    }
+
+    if (filteredBooks.length === 0) {
+        myShelf.innerHTML = '<p>No hay libros que coincidan con los filtros.</p>';
+        readBooksSection.style.display = 'none';
         return;
     }
-    const res = await fetch(`${API_URL}/api/shelf/rate`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ bookId, rating })
-    });
-    const data = await res.json();
-    if (data.error) {
-        showToast(data.error);
+
+    const unreadBooks = filteredBooks.filter(b => !b.finishedDate);
+    const readBooks = filteredBooks.filter(b => b.finishedDate);
+
+    if (unreadBooks.length === 0 && readBooks.length === 0) {
+        myShelf.innerHTML = '<p>No hay libros que coincidan con los filtros.</p>';
+        readBooksSection.style.display = 'none';
+        return;
+    }
+
+    if (unreadBooks.length > 0) {
+        unreadBooks.forEach(book => {
+            const card = createBookCard(book, true);
+            myShelf.appendChild(card);
+        });
     } else {
-        showToast(data.message);
-        loadMyShelf(filterCategoryInput.value.trim());
+        if (statusFilter === '' || statusFilter === 'unread') {
+            myShelf.innerHTML = '<p>No hay libros sin leer.</p>';
+        }
+    }
+
+    if (readBooks.length > 0) {
+        readBooksSection.style.display = 'block';
+        readBooksList.innerHTML = '';
+        readBooks.forEach(book => {
+            const card = createBookCard(book, true);
+            readBooksList.appendChild(card);
+        });
+    } else {
+        readBooksSection.style.display = 'none';
     }
 }
 
-// Actualizar reseña
-async function updateReview(bookId, review) {
-    if(!token) return;
-    const res = await fetch(`${API_URL}/api/shelf/review`, {
-        method: 'POST',
-        headers: {'Content-Type':'application/json','Authorization':`Bearer ${token}`},
-        body: JSON.stringify({bookId, review})
-    });
-    const data = await res.json();
-    if(data.error) showToast(data.error);
-    else showToast(data.message);
-}
-
-// Actualizar tags
-async function updateTags(bookId, tags) {
-    if(!token) return;
-    const res = await fetch(`${API_URL}/api/shelf/tags`, {
-        method:'POST',
-        headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`},
-        body: JSON.stringify({bookId, tags})
-    });
-    const data = await res.json();
-    if(data.error) showToast(data.error);
-    else showToast(data.message);
-}
-
-// Marcar terminado
 async function finishBook(bookId) {
     if(!token) return;
     const res = await fetch(`${API_URL}/api/shelf/finish`, {
@@ -343,12 +389,13 @@ async function finishBook(bookId) {
     if(data.error) showToast(data.error);
     else {
         showToast(data.message);
-        loadMyShelf(filterCategoryInput.value.trim());
+        loadMyShelfWithFilters();
         loadStats();
+        loadRecommendations();
+        loadAllTags();
     }
 }
 
-// Eliminar libro
 async function removeFromShelf(bookId) {
     if(!token) {
         showToast("Debes iniciar sesión.");
@@ -365,26 +412,23 @@ async function removeFromShelf(bookId) {
         showToast(data.error);
     } else {
         showToast(data.message);
-        loadMyShelf(filterCategoryInput.value.trim());
+        loadMyShelfWithFilters();
         loadStats();
         loadRecommendations();
+        loadAllTags();
     }
 }
 
-// Estadísticas
 async function loadStats() {
     if(!token) return;
     const res = await fetch(`${API_URL}/api/stats`, {
         headers:{'Authorization':`Bearer ${token}`}
     });
     const data = await res.json();
-    statsDiv.innerHTML = `
-        <p>Libros leídos: ${data.totalBooksRead}</p>
-        <p>Páginas leídas: ${data.totalPages}</p>
-    `;
+    booksReadCountSpan.textContent = data.totalBooksRead;
+    pagesReadCountSpan.textContent = data.totalPages;
 }
 
-// Recomendaciones
 async function loadRecommendations() {
     if(!token) return;
     const res = await fetch(`${API_URL}/api/recommendations`, {
@@ -402,9 +446,52 @@ async function loadRecommendations() {
     });
 }
 
-// Filtro por categoría
 if (applyFilterBtn) {
     applyFilterBtn.addEventListener('click', () => {
-        loadMyShelf(filterCategoryInput.value.trim());
+        loadMyShelfWithFilters();
+    });
+}
+
+// Cargar todas las etiquetas del usuario
+async function loadAllTags() {
+    if(!token) return;
+    tagsSpinner.style.display = 'flex';
+    tagsList.style.display = 'none';
+    tagsList.innerHTML = '';
+
+    const res = await fetch(`${API_URL}/api/shelf`, {
+        headers: {'Authorization':`Bearer ${token}`}
+    });
+    const data = await res.json();
+    // extraer tags únicas
+    const allTags = new Set();
+    data.forEach(b => {
+        (b.tags || []).forEach(t => allTags.add(t));
+    });
+
+    tagsSpinner.style.display = 'none';
+    if (allTags.size === 0) {
+        tagsList.innerHTML = '<p>No hay etiquetas disponibles.</p>';
+    } else {
+        const ul = document.createElement('ul');
+        ul.style.listStyle = 'none';
+        ul.style.padding = '0';
+        allTags.forEach(tag => {
+            const li = document.createElement('li');
+            li.style.marginBottom = '5px';
+            li.innerHTML = `<a href="#" class="tag-link" data-tag="${tag}">${tag}</a>`;
+            ul.appendChild(li);
+        });
+        tagsList.appendChild(ul);
+    }
+    tagsList.style.display = 'block';
+
+    // Al hacer click en una etiqueta sugerida, ponerla en el input category
+    tagsList.querySelectorAll('.tag-link').forEach(a => {
+        a.addEventListener('click', (e) => {
+            e.preventDefault();
+            filterCategoryInput.value = a.dataset.tag;
+            loadMyShelfWithFilters();
+        });
     });
 }

@@ -4,20 +4,18 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1.0" />
         <title>Mi Biblioteca</title>
+        <link rel="stylesheet" href="styles/styles.css" />
         <link rel="stylesheet" href="styles/libros.css" />
-        <link rel="stylesheet" href="styles/styles.css">
-        <link rel="stylesheet" href="styles/modal.css">
+        <link rel="stylesheet" href="styles/modal.css" />
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     </head>
     <body>
         <div id="header-container"></div>
 
-
         <nav class="navbar" id="navbar" style="display:none;">
             <ul class="menu">
                 <li><a href="#buscar">Buscar Libros</a></li>
                 <li><a href="#mi-biblioteca">Mi Biblioteca</a></li>
-
             </ul>
         </nav>
 
@@ -30,21 +28,53 @@
             </form>
             
             <div id="searchResults"></div>
+            <div id="paginationControls" class="pagination-controls"></div>
         </section>
 
         <section class="filters-section card" style="display:none;">
             <h2>Filtros en Mi Biblioteca</h2>
-            <input type="text" id="filterCategory" placeholder="Categoría..."/>
-            <button id="applyFilterBtn">Aplicar Filtro</button>
+            <div class="filters-container">
+                <div class="filter-group">
+                    <label for="filterCategory">Categoría:</label>
+                    <input type="text" id="filterCategory" placeholder="Categoría..."/>
+                </div>
+                <div class="filter-group">
+                    <label for="filterStatus">Estado:</label>
+                    <select id="filterStatus">
+                        <option value="">Todos</option>
+                        <option value="read">Leídos</option>
+                        <option value="unread">Sin leer</option>
+                    </select>
+                </div>
+                <button id="applyFilterBtn">Aplicar Filtros</button>
+            </div>
+            <div class="tags-suggestions-container" style="margin-top:20px;">
+                <h3>Etiquetas Disponibles</h3>
+                <div id="tagsSpinner" class="spinner-overlay" style="background:none;">
+                    <div class="spinner"></div>
+                </div>
+                <div id="tagsList" style="display:none; margin-top:10px;"></div>
+            </div>
         </section>
 
         <section class="library-section card" id="mi-biblioteca" style="display:none;">
             <h2>Mi Biblioteca</h2>
             <h3>Mis Libros</h3>
-            <div id="myShelf"></div>
+            <div id="myShelf" class="shelf-container"></div>
+            
+            <div id="stats" class="subcard">
+                <h3>Estadísticas</h3>
+                <p>Libros leídos: <span id="booksReadCount">0</span></p>
+                <p>Páginas leídas: <span id="pagesReadCount">0</span></p>
+            </div>
+            
+            <div id="readBooksSection" class="subcard" style="display:none;">
+                <h3>Libros Leídos</h3>
+                <div id="readBooksList" class="shelf-container"></div>
+            </div>
+
             <h3 id="recomendaciones" class="sub-h3">Recomendaciones</h3>
-            <div id="recommendations"></div>
-            <div id="stats" class="subcard"></div>
+            <div id="recommendations" class="shelf-container"></div>
         </section>
 
         <div id="toast"></div>
@@ -52,6 +82,30 @@
             <div class="spinner"></div>
         </div>
         <div id="footer-container"></div>
+
+        <!-- Modal para editar detalles del libro -->
+        <div id="editModal" class="modal">
+            <div class="modal-content edit-modal-content">
+                <span id="editModalClose" class="close">&times;</span>
+                <h2>Editar Detalles del Libro</h2>
+                <div class="modal-book-info">
+                    <img id="editModalThumbnail" src="" alt="Portada" />
+                    <h3 id="editModalTitle"></h3>
+                    <p id="editModalAuthors"></p>
+                </div>
+                <h4>Reseña</h4>
+                <textarea id="editModalReview" placeholder="Escribe una reseña..."></textarea>
+
+                <h4>Etiquetas</h4>
+                <input type="text" id="editModalTags" placeholder="Etiquetas separadas por coma" />
+
+                <h4>Calificación</h4>
+                <div id="editModalRating" class="rating-stars"></div>
+
+                <button id="saveEditBtn">Guardar</button>
+            </div>
+        </div>
+
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="JS/header-footer.js"></script>
         <script src="JS/app.js"></script>
