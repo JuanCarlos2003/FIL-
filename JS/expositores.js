@@ -176,8 +176,13 @@ async function handlePublicationSubmit(e) {
 
 async function showAuthorProfile(authorId) {
     try {
-        const response = await fetch(`${API_URL}/api/authors/${authorId}`);
-        const author = await response.json();
+        // Primero, obtener los datos del autor
+        const authorResponse = await fetch(`${API_URL}/api/authors/${authorId}`);
+        const author = await authorResponse.json();
+        
+        // Luego, obtener las publicaciones del autor
+        const publicationsResponse = await fetch(`${API_URL}/api/publications/author/${authorId}`);
+        const publications = await publicationsResponse.json();
         
         Swal.fire({
             title: author.name,
@@ -188,11 +193,20 @@ async function showAuthorProfile(authorId) {
                     <p>${author.shortBio || 'Sin biografía'}</p>
                     <h4>Publicaciones:</h4>
                     <div class="author-publications">
-                        ${author.publications && author.publications.length > 0 ? 
-                            author.publications.map(pub => `
+                        ${publications && publications.length > 0 ? 
+                            publications.map(pub => `
                                 <div class="publication">
                                     <h5>${pub.title}</h5>
                                     <p>${pub.description}</p>
+                                    ${pub.imageUrl ? `
+                                        <img src="${API_URL}${pub.imageUrl}" 
+                                             alt="${pub.title}" 
+                                             style="max-width: 200px; margin-top: 10px;">
+                                    ` : ''}
+                                    <p class="publication-meta">
+                                        <span>Género: ${pub.genre}</span>
+                                        <span>Fecha: ${new Date(pub.createdAt).toLocaleDateString()}</span>
+                                    </p>
                                 </div>
                             `).join('') : 
                             '<p>No hay publicaciones disponibles</p>'
@@ -201,7 +215,12 @@ async function showAuthorProfile(authorId) {
                 </div>
             `,
             width: '80%',
-            showCloseButton: true
+            showCloseButton: true,
+            customClass: {
+                container: 'author-profile-modal',
+                popup: 'author-profile-popup',
+                content: 'author-profile-content'
+            }
         });
     } catch (error) {
         console.error('Error:', error);

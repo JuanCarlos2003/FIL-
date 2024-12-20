@@ -4,28 +4,72 @@ let currentUsername = null;
 let isAuthor = false;
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Recuperar datos del localStorage
+    const savedToken = localStorage.getItem('token');
+    const savedUsername = localStorage.getItem('username');
+    const savedIsAuthor = localStorage.getItem('isAuthor') === 'true';
+
+    if (savedToken && savedUsername) {
+        token = savedToken;
+        currentUsername = savedUsername;
+        isAuthor = savedIsAuthor;
+    }
+    // Actualiza la constante header en header-footer.js
+
     const header = `
-        <header>
-            <div class="logo">FIL+</div>
-            <div class="header-content">
+    <header>
+        <div class="header-main">
+            <a href="index.html" class="logo">FIL+</a>
+            <div class="header-main-right">
+                <div class="search-container desktop-only">
+                    <form class="search-bar" action="#" method="get">
+                        <input type="text" placeholder="¿Qué estás buscando?" aria-label="Buscar">
+                        <button type="submit" aria-label="Realizar búsqueda">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+                <div class="user-section desktop-only" id="userSection"></div>
+                <button class="mobile-menu-button" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="header-content">
+            <nav class="nav-menu">
                 <ul class="nav-links">
                     <li><a href="index.html">Inicio</a></li>
                     <li><a href="eventos.html">Programación</a></li>
                     <li><a href="expositores.html">Expositores</a></li>
                     <li><a href="comunidad.html">Comunidad</a></li>
                     <li><a href="libros.html">Biblioteca</a></li>
+                    <li class="mobile-only">
+                        <div class="search-container mobile">
+                            <form class="search-bar" action="#" method="get">
+                                <input type="text" placeholder="¿Qué estás buscando?" aria-label="Buscar">
+                                <button type="submit" aria-label="Realizar búsqueda">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                            </form>
+                        </div>
+                    </li>
+                    <li class="mobile-only user-section" id="userSectionMobile"></li>
                 </ul>
-                <div class="header-right">
-                    <form id="searchForm" class="search-bar" action="#" method="get">
-                        <input id="searchQuery" type="text" name="search" placeholder="Buscar..." aria-label="Buscar">
-                        <button type="submit">🔍</button>
-                    </form>
-                    <div id="userSection" style="display:inline-block;margin-left:20px;"></div>
-                </div>
-            </div>
-        </header>
-    `;
+            </nav>
+        </div>
+    </header>
+`;
 
+    // Footer template
     const footer = `
         <footer>
             <div class="footer-container">
@@ -65,35 +109,76 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('header-container').innerHTML = header;
     document.getElementById('footer-container').innerHTML = footer;
 
-    // Recuperar datos del localStorage
-    const savedToken = localStorage.getItem('token');
-    const savedUsername = localStorage.getItem('username');
-    const savedIsAuthor = localStorage.getItem('isAuthor') === 'true';
+    // Inicializar funcionalidad del menú móvil
+    initMobileMenu();
 
-    if (savedToken && savedUsername) {
-        token = savedToken;
-        currentUsername = savedUsername;
-        isAuthor = savedIsAuthor;
-    }
-
+    // Renderizar sección de usuario
     renderUserSection();
 });
 
-function renderUserSection() {
+function initMobileMenu() {
+    const mobileMenuButton = document.querySelector('.mobile-menu-button');
+    const headerContent = document.querySelector('.header-content');
     const userSection = document.getElementById('userSection');
-    if (token && currentUsername) {
-        userSection.innerHTML = `
-            <span style="font-weight:bold;">
-                Bienvenido ${currentUsername}
-                ${isAuthor ? '<span style="color: #4CAF50;">(Autor)</span>' : ''}
-            </span>
-            <button id="logoutBtn" style="padding:5px 10px; background:#e74c3c; color:#fff; border:none; border-radius:4px; cursor:pointer;">Cerrar Sesión</button>
-        `;
-        document.getElementById('logoutBtn').addEventListener('click', logoutUser);
-    } else {
-        userSection.innerHTML = `<button id="loginBtn" class="btn-login">Iniciar Sesión</button>`;
-        document.getElementById('loginBtn').addEventListener('click', showLoginModal);
+    const userSectionMobile = document.getElementById('userSectionMobile');
+
+    // Clonar el contenido del userSection al userSectionMobile
+    if (userSection && userSectionMobile) {
+        userSectionMobile.innerHTML = userSection.innerHTML;
     }
+
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenuButton.classList.toggle('active');
+        headerContent.classList.toggle('active');
+    });
+
+    // Cerrar menú al hacer clic en un enlace
+    const navLinks = document.querySelectorAll('.nav-links a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenuButton.classList.remove('active');
+            headerContent.classList.remove('active');
+        });
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('header')) {
+            mobileMenuButton.classList.remove('active');
+            headerContent.classList.remove('active');
+        }
+    });
+}
+
+function renderUserSection() {
+    const userSections = [
+        document.getElementById('userSection'),
+        document.getElementById('userSectionMobile')
+    ];
+
+    const userContent = token && currentUsername ? `
+        <div class="user-info">
+            <span class="username">
+                ${currentUsername}
+                ${isAuthor ? '<span class="author-badge">(Autor)</span>' : ''}
+            </span>
+            <button id="logoutBtn" class="logout-btn">Cerrar Sesión</button>
+        </div>
+    ` : `
+        <button id="loginBtn" class="btn-login">Iniciar Sesión</button>
+    `;
+
+    userSections.forEach(section => {
+        if (section) {
+            section.innerHTML = userContent;
+
+            // Agregar event listeners
+            if (token && currentUsername) {
+                section.querySelector('#logoutBtn').addEventListener('click', logoutUser);
+            } else {
+                section.querySelector('#loginBtn').addEventListener('click', showLoginModal);
+            }
+        }
+    });
 }
 
 function showLoginModal() {
@@ -138,9 +223,7 @@ function showLoginModal() {
                     <div id="authorCodeSection" style="display: none;">
                         <label for="authorCode">Código de Autorización:</label>
                         <input type="text" id="authorCode">
-                        <small style="display: block; color: #666; margin-top: 5px;">
-                            *Este código es proporcionado por los organizadores de la FIL
-                        </small>
+                        <small>*Este código es proporcionado por los organizadores de la FIL</small>
                     </div>
                 </div>
 
@@ -149,7 +232,6 @@ function showLoginModal() {
             <p>¿Ya tienes cuenta? <a href="#" id="switchToLogin">Inicia sesión</a></p>
         `;
 
-        // Manejar la visibilidad del campo de código de autor
         const isAuthorCheckbox = modal.querySelector('#isAuthor');
         const authorCodeSection = modal.querySelector('#authorCodeSection');
         isAuthorCheckbox.addEventListener('change', (e) => {
@@ -210,7 +292,6 @@ function initModalEvents(modal, closeModal) {
                     Swal.fire('Error', data.error, 'error');
                 } else {
                     if (isAuthorChecked) {
-                        // Si es autor, iniciar sesión automáticamente
                         const loginRes = await fetch(`${API_URL}/api/auth/login`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
@@ -219,7 +300,6 @@ function initModalEvents(modal, closeModal) {
                         const loginData = await loginRes.json();
 
                         if (loginData.token) {
-                            // Guardar temporalmente los datos
                             localStorage.setItem('token', loginData.token);
                             localStorage.setItem('username', loginData.username);
                             localStorage.setItem('isAuthor', 'true');
@@ -239,23 +319,22 @@ function initModalEvents(modal, closeModal) {
                             });
                         }
                     } else {
-                        // Si no es autor, mostrar mensaje y formulario de login
                         Swal.fire({
                             title: '¡Registro exitoso!',
                             text: 'Ya puedes iniciar sesión',
                             icon: 'success'
                         }).then(() => {
                             modal.querySelector('#modal-forms').innerHTML = `
-                            <h2>Iniciar Sesión</h2>
-                            <form id="loginForm">
-                                <label for="logUsername">Usuario:</label>
-                                <input id="logUsername" type="text" value="${username}" required>
-                                <label for="logPassword">Contraseña:</label>
-                                <input id="logPassword" type="password" required>
-                                <button type="submit">Ingresar</button>
-                            </form>
-                            <p>¿No tienes cuenta? <a href="#" id="switchToRegister">Regístrate aquí</a></p>
-                        `;
+                                <h2>Iniciar Sesión</h2>
+                                <form id="loginForm">
+                                    <label for="logUsername">Usuario:</label>
+                                    <input id="logUsername" type="text" value="${username}" required>
+                                    <label for="logPassword">Contraseña:</label>
+                                    <input id="logPassword" type="password" required>
+                                    <button type="submit">Ingresar</button>
+                                </form>
+                                <p>¿No tienes cuenta? <a href="#" id="switchToRegister">Regístrate aquí</a></p>
+                            `;
                             initModalEvents(modal, closeModal);
                         });
                     }

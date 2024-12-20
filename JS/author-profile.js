@@ -12,7 +12,6 @@ function checkAuthStatus() {
         return;
     }
 
-    // Si ya completó el perfil y no necesita actualizarlo, redirigir
     if (!needsProfile) {
         window.location.href = 'expositores.html';
         return;
