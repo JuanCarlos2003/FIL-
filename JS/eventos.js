@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const API_EVENTS = 'http://localhost:3000/api/events';
-  const API_USER_EVENTS = 'http://localhost:3000/api/userevents';
+  const API_EVENTS = 'http://192.168.100.64:3000/api/events';
+  const API_USER_EVENTS = 'http://192.168.100.64:3000/api/userevents';
 
   const fechaSelect = document.getElementById('fecha-select');
   const horaSelect = document.getElementById('hora-select');

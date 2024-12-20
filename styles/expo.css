@@ -311,3 +311,26 @@
 .publication-card {
     animation: fadeIn 0.5s ease-out;
 }
+
+.delete-publication-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    width: 100%;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.delete-publication-btn:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+}
+
+.delete-publication-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.3);
+}

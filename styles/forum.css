@@ -342,3 +342,24 @@ h1 {
         font-size: 0.8rem;
     }
 }
+
+.delete-forum-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.delete-forum-button:hover {
+    background-color: #c82333;
+}
+
+.delete-forum-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.3);
+}
