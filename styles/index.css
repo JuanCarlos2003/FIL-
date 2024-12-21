@@ -1,0 +1,162 @@
+/* Hero Section Styles */
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.btn-primary {
+    background-color: #ffd700;
+    color: #5c2a9d;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border: 2px solid #ffd700;
+    color: #fff;
+}
+
+/* Section Styles */
+.section {
+    padding: 4rem 2rem;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.view-all {
+    color: #5c2a9d;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.view-all:hover {
+    color: #8753c9;
+}
+
+/* Grid Layouts */
+.publications-grid,
+.forums-grid,
+.authors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+/* Card Styles */
+.publication-card,
+.forum-card,
+.author-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    overflow: hidden;
+}
+
+.publication-card:hover,
+.forum-card:hover,
+.author-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Stats Section */
+.stats-section {
+    background-color: #5c2a9d;
+    color: white;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.stat-card {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.stat-number {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #ffd700;
+    display: block;
+}
+
+.stat-label {
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+    display: block;
+}
+
+/* Join Section */
+.join-section {
+    background: linear-gradient(rgba(92, 42, 157, 0.9), rgba(92, 42, 157, 0.9)), 
+                url('../img/join-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+}
+
+.join-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+}
+
+.join-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-buttons,
+    .join-buttons {
+        flex-direction: column;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .publications-grid,
+    .forums-grid,
+    .authors-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section {
+        padding: 2rem 1rem;
+    }
+}
