@@ -54,21 +54,40 @@ function displayAuthors(authors) {
     authorsContainer.innerHTML = '';
 
     if (!Array.isArray(authors) || authors.length === 0) {
-        authorsContainer.innerHTML = '<p class="no-authors">No hay autores registrados aún.</p>';
+        authorsContainer.innerHTML = `
+            <div class="no-authors">
+                <i class="fas fa-user-slash" style="font-size: 3rem; color: var(--primary-light); margin-bottom: 15px;"></i>
+                <p>No hay autores registrados aún.</p>
+            </div>`;
         return;
     }
 
     authors.forEach(author => {
-        if (!author || !author.name) return; // Skip invalid authors
+        if (!author || !author.name) return;
         
+        const authorInitials = author.name.split(' ').map(n => n[0]).join('').toUpperCase();
         const authorElement = document.createElement('div');
         authorElement.className = 'author-card';
         authorElement.innerHTML = `
+            <div class="author-image">
+                ${author.imageUrl ? 
+                    `<img src="${API_URL}${author.imageUrl}" alt="${escapeHtml(author.name)}">` :
+                    authorInitials
+                }
+            </div>
             <div class="author-info">
                 <h3>${escapeHtml(author.name)}</h3>
-                <p class="genre">Género: ${escapeHtml(author.genre || 'No especificado')}</p>
+                <p class="genre">${escapeHtml(author.genre || 'No especificado')}</p>
                 <p class="short-bio">${author.shortBio ? escapeHtml(author.shortBio.substring(0, 150) + '...') : 'Sin biografía'}</p>
-                <button onclick="showAuthorProfile('${author.userId}')">Ver Perfil Completo</button>
+                <button class="view-profile-btn" onclick="showAuthorProfile('${author.userId}')">
+                    Ver Perfil Completo
+                </button>
+                <div class="author-social-links">
+                    ${author.social ? `
+                        ${author.social.twitter ? `<a href="${author.social.twitter}" target="_blank"><i class="fab fa-twitter"></i></a>` : ''}
+                        ${author.social.instagram ? `<a href="${author.social.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>` : ''}
+                    ` : ''}
+                </div>
             </div>
         `;
         authorsContainer.appendChild(authorElement);
@@ -97,12 +116,16 @@ function displayPublications(publications) {
     publicationsContainer.innerHTML = '';
 
     if (!Array.isArray(publications) || publications.length === 0) {
-        publicationsContainer.innerHTML = '<p class="no-publications">No hay publicaciones disponibles.</p>';
+        publicationsContainer.innerHTML = `
+            <div class="no-publications">
+                <i class="fas fa-book-open" style="font-size: 3rem; color: var(--primary-light); margin-bottom: 15px;"></i>
+                <p>No hay publicaciones disponibles.</p>
+            </div>`;
         return;
     }
 
     publications.forEach(pub => {
-        if (!pub || !pub.title) return; // Skip invalid publications
+        if (!pub || !pub.title) return;
         
         const pubElement = document.createElement('div');
         pubElement.className = 'publication-card';
@@ -110,18 +133,28 @@ function displayPublications(publications) {
             <div class="publication-header">
                 <h3>${escapeHtml(pub.title)}</h3>
                 <span class="author-name" onclick="showAuthorProfile('${pub.authorId}')">
-                    por ${escapeHtml(pub.authorName)}
+                    <i class="fas fa-user-edit"></i> ${escapeHtml(pub.authorName)}
                 </span>
             </div>
-            ${pub.imageUrl ? `<img src="${API_URL}${pub.imageUrl}" alt="${escapeHtml(pub.title)}" class="publication-image">` : ''}
+            ${pub.imageUrl ? 
+                `<img src="${API_URL}${pub.imageUrl}" alt="${escapeHtml(pub.title)}" class="publication-image">` : 
+                ''
+            }
             <p class="publication-description">${escapeHtml(pub.description)}</p>
+            <div class="publication-tags">
+                <span class="publication-tag">${escapeHtml(pub.genre)}</span>
+            </div>
             <div class="publication-meta">
-                <span>Género: ${escapeHtml(pub.genre)}</span>
-                <span>Fecha: ${new Date(pub.createdAt).toLocaleDateString()}</span>
+                <div class="publication-stats">
+                    <div class="stat-item">
+                        <i class="far fa-calendar-alt"></i>
+                        <span>${new Date(pub.createdAt).toLocaleDateString()}</span>
+                    </div>
+                </div>
             </div>
             ${currentUser === pub.authorName ? `
                 <button class="delete-publication-btn" onclick="handlePublicationDelete('${pub.id}')">
-                    Eliminar Publicación
+                    <i class="fas fa-trash-alt"></i> Eliminar Publicación
                 </button>
             ` : ''}
         `;
@@ -267,41 +300,72 @@ async function showAuthorProfile(authorId) {
         const publications = await publicationsResponse.json();
         
         Swal.fire({
-            title: escapeHtml(author.name),
             html: `
                 <div class="author-profile">
-                    <p><strong>Género:</strong> ${escapeHtml(author.genre)}</p>
-                    <p><strong>Biografía:</strong></p>
-                    <p>${escapeHtml(author.shortBio || 'Sin biografía')}</p>
-                    <h4>Publicaciones:</h4>
-                    <div class="author-publications">
-                        ${publications && publications.length > 0 ? 
-                            publications.map(pub => `
-                                <div class="publication">
-                                    <h5>${escapeHtml(pub.title)}</h5>
-                                    <p>${escapeHtml(pub.description)}</p>
-                                    ${pub.imageUrl ? `
-                                        <img src="${API_URL}${pub.imageUrl}" 
-                                             alt="${escapeHtml(pub.title)}" 
-                                             style="max-width: 200px; margin-top: 10px;">
-                                    ` : ''}
-                                    <p class="publication-meta">
-                                        <span>Género: ${escapeHtml(pub.genre)}</span>
-                                        <span>Fecha: ${new Date(pub.createdAt).toLocaleDateString()}</span>
-                                    </p>
+                    <div class="author-header">
+                        <div class="author-image-column">
+                            <div class="author-image">
+                                ${author.imageUrl ? 
+                                    `<img src="${API_URL}${author.imageUrl}" alt="${escapeHtml(author.name)}">` :
+                                    author.name.split(' ').map(n => n[0]).join('').toUpperCase()
+                                }
+                            </div>
+                        </div>
+                        <div class="author-info-column">
+                            <h2 class="author-name">${escapeHtml(author.name)}</h2>
+                            <div class="author-stats">
+                                <div class="stat-card">
+                                    <div class="stat-title">Género Principal</div>
+                                    <div class="stat-value">${escapeHtml(author.genre)}</div>
                                 </div>
-                            `).join('') : 
-                            '<p>No hay publicaciones disponibles</p>'
-                        }
+                                <div class="stat-card">
+                                    <div class="stat-title">Publicaciones</div>
+                                    <div class="stat-value">${publications.length} obras</div>
+                                </div>
+                                ${author.awards ? `
+                                    <div class="stat-card">
+                                        <div class="stat-title">Premios</div>
+                                        <div class="stat-value">${author.awards} 🏆</div>
+                                    </div>
+                                ` : ''}
+                            </div>
+                            <div class="author-bio">
+                                <h3 class="bio-title">Biografía</h3>
+                                <p class="bio-content">${escapeHtml(author.shortBio || 'Sin biografía disponible.')}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="publications-section">
+                        <h3 class="publications-title">Publicaciones</h3>
+                        <div class="publications-grid">
+                            ${publications && publications.length > 0 ? 
+                                publications.map(pub => `
+                                    <div class="publication-card">
+                                        <h4 class="pub-title">${escapeHtml(pub.title)}</h4>
+                                        ${pub.imageUrl ? `
+                                            <img src="${API_URL}${pub.imageUrl}" 
+                                                 alt="${escapeHtml(pub.title)}"
+                                                 class="pub-image">
+                                        ` : ''}
+                                        <p>${escapeHtml(pub.description)}</p>
+                                        <div class="pub-meta">
+                                            <span class="pub-genre">${escapeHtml(pub.genre)}</span>
+                                            <span class="pub-date">${new Date(pub.createdAt).toLocaleDateString()}</span>
+                                        </div>
+                                    </div>
+                                `).join('') : 
+                                '<div class="no-publications">No hay publicaciones disponibles</div>'
+                            }
+                        </div>
                     </div>
                 </div>
             `,
-            width: '80%',
             showCloseButton: true,
+            showConfirmButton: false,
+            width: '90%',
             customClass: {
-                container: 'author-profile-modal',
-                popup: 'author-profile-popup',
-                content: 'author-profile-content'
+                popup: 'author-profile-popup'
             }
         });
     } catch (error) {
