@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const API_EVENTS = 'http://192.168.100.64:3000/api/events';
-  const API_USER_EVENTS = 'http://192.168.100.64:3000/api/userevents';
+  const API_EVENTS = 'https://backendfil-production.up.railway.app/api/events';
+  const API_USER_EVENTS = 'https://backendfil-production.up.railway.app/api/userevents';
 
   const fechaSelect = document.getElementById('fecha-select');
   const horaSelect = document.getElementById('hora-select');
@@ -59,37 +59,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
     fetch(API_USER_EVENTS, {
       method: 'POST',
-      headers: { 
+      headers: {
         'Content-Type': 'application/json',
-        ...(token ? { 'Authorization': `Bearer ${token}` } : {}) 
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
       },
       body: JSON.stringify({ eventoId: currentEventId })
     })
-    .then(res => {
-      if (!res.ok) {
-        if (res.status === 401) {
-          noSession = true;
-          Swal.fire({
-            icon: 'error',
-            title: 'No autorizado',
-            text: 'Necesitas iniciar sesión para agregar eventos a tu lista.'
-          });
-          throw new Error('No autorizado');
+      .then(res => {
+        if (!res.ok) {
+          if (res.status === 401) {
+            noSession = true;
+            Swal.fire({
+              icon: 'error',
+              title: 'No autorizado',
+              text: 'Necesitas iniciar sesión para agregar eventos a tu lista.'
+            });
+            throw new Error('No autorizado');
+          }
+          throw new Error('Error al agregar el evento');
         }
-        throw new Error('Error al agregar el evento');
-      }
-      return res.json();
-    })
-    .then(newUe => {
-      userEventsData.push(newUe);
-      renderUserEvents();
-      asistirBtn.textContent = 'Ya estás asistiendo';
-      asistirBtn.disabled = true;
-      fetchUserEvents(); // Vuelve a cargar la lista completa y renderiza de nuevo
-    })
-    .catch(err => {
-      console.error('Error al agregar evento:', err);
-    });
+        return res.json();
+      })
+      .then(newUe => {
+        userEventsData.push(newUe);
+        renderUserEvents();
+        asistirBtn.textContent = 'Ya estás asistiendo';
+        asistirBtn.disabled = true;
+        fetchUserEvents(); // Vuelve a cargar la lista completa y renderiza de nuevo
+      })
+      .catch(err => {
+        console.error('Error al agregar evento:', err);
+      });
   });
 
   function fetchEvents() {
@@ -131,27 +131,27 @@ document.addEventListener('DOMContentLoaded', () => {
         ...(token ? { 'Authorization': `Bearer ${token}` } : {})
       }
     })
-    .then(res => {
-      if (!res.ok) {
-        if (res.status === 401) {
-          noSession = true; 
-          // Sin sesión, no se pueden obtener eventos del usuario
-          return []; // Retorna array vacío
+      .then(res => {
+        if (!res.ok) {
+          if (res.status === 401) {
+            noSession = true;
+            // Sin sesión, no se pueden obtener eventos del usuario
+            return []; // Retorna array vacío
+          }
+          throw new Error('Error al cargar userEvents');
         }
-        throw new Error('Error al cargar userEvents');
-      }
-      return res.json();
-    })
-    .then(data => {
-      userEventsData = data;
-      renderUserEvents();
-    })
-    .catch(err => {
-      console.error('Error al cargar userEvents:', err);
-      noSession = true;
-      userEventsData = [];
-      renderUserEvents();
-    });
+        return res.json();
+      })
+      .then(data => {
+        userEventsData = data;
+        renderUserEvents();
+      })
+      .catch(err => {
+        console.error('Error al cargar userEvents:', err);
+        noSession = true;
+        userEventsData = [];
+        renderUserEvents();
+      });
   }
 
   function renderTable(data) {
@@ -244,27 +244,27 @@ document.addEventListener('DOMContentLoaded', () => {
             ...(token ? { 'Authorization': `Bearer ${token}` } : {})
           },
           body: JSON.stringify({ estado: newEstado })
-        })        
-        .then(res => {
-          if (!res.ok) throw new Error('Error al actualizar estado');
-          return res.json();
         })
-        .then(updated => {
-          const index = userEventsData.findIndex(u => u.eventoId === ue.eventoId);
-          if (index !== -1) {
-            userEventsData[index].estado = updated.estado;
-          }
-          renderUserEvents();
-          fetchUserEvents(); // Vuelve a cargar la lista completa y renderiza de nuevo
-        })        
-        .catch(err => {
-          console.error('Error actualizando estado:', err);
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'No se pudo actualizar el estado del evento.'
+          .then(res => {
+            if (!res.ok) throw new Error('Error al actualizar estado');
+            return res.json();
+          })
+          .then(updated => {
+            const index = userEventsData.findIndex(u => u.eventoId === ue.eventoId);
+            if (index !== -1) {
+              userEventsData[index].estado = updated.estado;
+            }
+            renderUserEvents();
+            fetchUserEvents(); // Vuelve a cargar la lista completa y renderiza de nuevo
+          })
+          .catch(err => {
+            console.error('Error actualizando estado:', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'No se pudo actualizar el estado del evento.'
+            });
           });
-        });
       });
       tdActions.appendChild(estadoBtn);
 
@@ -277,24 +277,24 @@ document.addEventListener('DOMContentLoaded', () => {
           headers: {
             ...(token ? { 'Authorization': `Bearer ${token}` } : {})
           }
-        })        
-        .then(res => {
-          if (!res.ok) throw new Error('Error al eliminar evento');
-          return res.json();
         })
-        .then(() => {
-          userEventsData = userEventsData.filter(u => u.id !== ue.id);
-          renderUserEvents();
-          fetchUserEvents(); // Vuelve a cargar la lista completa y renderiza de nuevo
-        })
-        .catch(err => {
-          console.error('Error eliminando evento:', err);
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'No se pudo eliminar el evento de tu lista.'
+          .then(res => {
+            if (!res.ok) throw new Error('Error al eliminar evento');
+            return res.json();
+          })
+          .then(() => {
+            userEventsData = userEventsData.filter(u => u.id !== ue.id);
+            renderUserEvents();
+            fetchUserEvents(); // Vuelve a cargar la lista completa y renderiza de nuevo
+          })
+          .catch(err => {
+            console.error('Error eliminando evento:', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'No se pudo eliminar el evento de tu lista.'
+            });
           });
-        });
       });
       tdActions.appendChild(deleteBtn);
 
