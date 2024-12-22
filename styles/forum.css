@@ -1,91 +1,39 @@
-/* Variables de color para mantener consistencia */
-:root {
-    --primary-color: #5c2a9d;
-    --primary-light: #8753c9;
-    --accent-color: #ffd700;
-    --text-dark: #333;
-    --text-medium: #666;
-    --text-light: #777;
-    --background-light: #f8f9fa;
-    --white: #fff;
-    --shadow: 0 2px 4px rgba(0,0,0,0.1);
-    --hover-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
-
 /* Contenedor principal */
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 40px 20px;
+    padding: 2rem;
 }
 
-/* Encabezados */
-h1, h2, h3 {
-    color: var(--primary-color);
-}
-
-h1 {
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-/* Botón nuevo foro */
-#newForumButtonContainer {
-    margin-bottom: 30px;
-    text-align: right;
-}
-
-.primary-button {
-    background-color: var(--primary-color);
-    color: var(--white);
-    border: none;
-    padding: 12px 30px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-.primary-button:hover {
-    background-color: var(--primary-light);
-    transform: translateY(-2px);
-    box-shadow: var(--hover-shadow);
-}
-
-/* Formulario de nuevo foro */
+/* Sección de creación de nuevo foro */
 #newForumForm {
-    background-color: var(--white);
+    background: #ffffff;
     border-radius: 12px;
-    padding: 30px;
-    margin-bottom: 40px;
-    box-shadow: var(--shadow);
-    border: 1px solid rgba(92, 42, 157, 0.1);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#newForumForm h2 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
 }
 
 #forumForm {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    display: grid;
+    gap: 1.5rem;
 }
 
 #forumForm input,
 #forumForm select,
 #forumForm textarea {
-    padding: 12px 15px;
-    border: 2px solid rgba(92, 42, 157, 0.2);
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 1rem;
-    transition: all 0.3s ease;
-}
-
-#forumForm input:focus,
-#forumForm select:focus,
-#forumForm textarea:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(92, 42, 157, 0.1);
+    color: #333;
 }
 
 #forumForm textarea {
@@ -93,176 +41,404 @@ h1 {
     resize: vertical;
 }
 
-#forumForm button {
-    background-color: var(--primary-color);
-    color: var(--white);
-    padding: 15px;
+/* Estilos para el botón de nuevo foro */
+#newForumButton {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
     border-radius: 8px;
-    font-weight: 600;
-    transition: all 0.3s ease;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    margin-bottom: 2rem;
 }
 
-#forumForm button:hover {
-    background-color: var(--primary-light);
-    transform: translateY(-2px);
+#newForumButton:hover {
+    background: #2980b9;
 }
 
 /* Lista de foros */
 #forumsList {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 25px;
+    gap: 2rem;
 }
 
 .forum-card {
-    background-color: var(--white);
+    background: #ffffff;
     border-radius: 12px;
-    padding: 25px;
-    box-shadow: var(--shadow);
-    transition: all 0.3s ease;
-    border: 1px solid rgba(92, 42, 157, 0.1);
-    animation: fadeIn 0.5s ease-out;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .forum-card:hover {
     transform: translateY(-5px);
-    box-shadow: var(--hover-shadow);
-    border-color: var(--primary-color);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .forum-card h3 {
-    font-size: 1.4rem;
-    margin-bottom: 15px;
+    color: #2c3e50;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 .forum-card p {
-    color: var(--text-medium);
-    margin-bottom: 20px;
+    color: #555;
     line-height: 1.6;
+    margin-bottom: 1.5rem;
 }
 
-/* Meta información */
+/* Meta información del foro */
 .forum-meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 20px;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
 }
 
 .forum-meta span {
-    background-color: var(--background-light);
-    color: var(--primary-color);
-    padding: 6px 12px;
-    border-radius: 15px;
+    background: #f8f9fa;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
     font-size: 0.9rem;
-    transition: all 0.3s ease;
+    color: #666;
 }
 
-.forum-meta span:hover {
-    background-color: var(--primary-color);
-    color: var(--white);
+/* Footer de la tarjeta del foro */
+.forum-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
 }
 
-/* Detalles del foro */
-#forumDetails {
-    background-color: var(--white);
+.forum-creator {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.forum-date {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+/* Botón ver foro */
+.forum-card button {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.forum-card button:hover {
+    background: #2980b9;
+}
+
+/* Mensaje de no hay foros */
+.no-forums {
+    text-align: center;
+    padding: 3rem;
+    color: #666;
+    font-style: italic;
+    background: #f8f9fa;
     border-radius: 12px;
-    padding: 30px;
-    box-shadow: var(--shadow);
-    margin-bottom: 30px;
+    margin: 2rem 0;
+}
+
+/* Categoría select group */
+.category-select-group {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Variables de colores */
+:root {
+    --primary-color: #4a90e2;
+    --secondary-color: #f39c12;
+    --success-color: #2ecc71;
+    --info-color: #3498db;
+    --warning-color: #f1c40f;
+    --danger-color: #e74c3c;
+    --light-color: #ecf0f1;
+    --dark-color: #2c3e50;
+    --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-2: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
+}
+
+/* Estilos para la presentación del foro */
+#forumDetails {
+    background: var(--gradient-1);
+    color: white;
+    border-radius: 15px;
+    padding: 2.5rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+#forumDetails h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .forum-description {
     font-size: 1.1rem;
-    color: var(--text-medium);
-    line-height: 1.6;
-    margin-bottom: 25px;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2rem;
 }
 
-/* Comentarios */
+.forum-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 10px;
+}
+
+.forum-meta span {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.6rem 1.2rem;
+    border-radius: 25px;
+    font-size: 0.95rem;
+    color: white;
+    backdrop-filter: blur(5px);
+    transition: transform 0.2s ease;
+}
+
+.forum-meta span:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Estilos de la sección de comentarios */
+#commentsContainer {
+    margin-top: 3rem;
+    animation: fadeIn 0.4s ease-out;
+}
+
 .comments-list {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 1.5rem;
 }
 
 .comment-card {
-    background-color: var(--white);
+    background: white;
     border-radius: 12px;
-    padding: 25px;
-    box-shadow: var(--shadow);
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
-    animation: slideIn 0.5s ease-out;
+    border-left: 5px solid var(--primary-color);
+}
+
+/* Alternar colores de los comentarios */
+.comment-card:nth-child(4n+1) {
+    border-left-color: var(--primary-color);
+    background: linear-gradient(to right, rgba(74, 144, 226, 0.1), white);
+}
+
+.comment-card:nth-child(4n+2) {
+    border-left-color: var(--success-color);
+    background: linear-gradient(to right, rgba(46, 204, 113, 0.1), white);
+}
+
+.comment-card:nth-child(4n+3) {
+    border-left-color: var(--warning-color);
+    background: linear-gradient(to right, rgba(241, 196, 15, 0.1), white);
+}
+
+.comment-card:nth-child(4n+4) {
+    border-left-color: var(--secondary-color);
+    background: linear-gradient(to right, rgba(243, 156, 18, 0.1), white);
 }
 
 .comment-card:hover {
-    transform: translateX(5px);
-    box-shadow: var(--hover-shadow);
+    transform: translateY(-3px) translateX(2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+#commentsContainer {
+    margin-top: 3rem;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.comment-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+}
+
+.comment-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .comment-header {
+    position: relative;
+    background: rgba(0, 0, 0, 0.02);
+    margin: -1.5rem -1.5rem 1rem -1.5rem;
+    padding: 1.5rem;
+    border-radius: 12px 12px 0 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid rgba(92, 42, 157, 0.1);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eee;
 }
 
 .comment-author {
-    color: var(--primary-color);
     font-weight: 600;
-    font-size: 1.1rem;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.comment-author::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: #3498db;
+    border-radius: 50%;
 }
 
 .comment-date {
-    color: var(--text-light);
+    color: #666;
     font-size: 0.9rem;
 }
 
 .comment-text {
-    color: var(--text-medium);
+    color: #444;
     line-height: 1.6;
+    font-size: 1rem;
 }
 
 /* Formulario de comentarios */
 #commentFormContainer {
-    background-color: var(--white);
+    background: #ffffff;
     border-radius: 12px;
-    padding: 30px;
-    box-shadow: var(--shadow);
-    margin-top: 30px;
+    padding: 2rem;
+    margin-top: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    animation: fadeIn 0.3s ease-out;
 }
 
-#commentForm textarea {
+#commentFormContainer h3 {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #3498db;
+}
+
+#commentForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#commentText {
     width: 100%;
     min-height: 120px;
-    padding: 15px;
-    border: 2px solid rgba(92, 42, 157, 0.2);
+    padding: 1rem;
+    border: 1px solid #ddd;
     border-radius: 8px;
+    font-family: inherit;
     font-size: 1rem;
-    transition: all 0.3s ease;
+    resize: vertical;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-#commentForm textarea:focus {
+#commentText:focus {
     outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(92, 42, 157, 0.1);
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+#commentText::placeholder {
+    color: #999;
 }
 
 #commentForm button {
-    background-color: var(--primary-color);
-    color: var(--white);
-    padding: 12px 25px;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    margin-top: 15px;
+    align-self: flex-end;
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 #commentForm button:hover {
-    background-color: var(--primary-light);
+    background: #2980b9;
     transform: translateY(-2px);
+}
+
+#commentForm button:active {
+    transform: translateY(0);
+}
+
+/* Mensaje de no hay comentarios */
+.no-comments {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+    font-style: italic;
+    background: #f8f9fa;
+    border-radius: 12px;
+    margin: 1rem 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .category-select-group {
+        grid-template-columns: 1fr;
+    }
+
+    .forum-meta {
+        flex-direction: column;
+    }
+
+    .forum-meta span {
+        width: 100%;
+        text-align: center;
+    }
+
+    .forum-footer {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
 }
 
 /* Animaciones */
@@ -277,89 +453,45 @@ h1 {
     }
 }
 
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+.forum-card {
+    animation: fadeIn 0.3s ease-out;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .container {
-        padding: 20px 15px;
-    }
-
-    h1 {
-        font-size: 2rem;
-    }
-
-    #forumsList {
-        grid-template-columns: 1fr;
-    }
-
-    .forum-card,
-    #forumDetails,
-    #newForumForm,
-    .comment-card {
-        padding: 20px;
-    }
-
-    .forum-meta {
-        gap: 8px;
-    }
-
-    #commentForm button {
-        width: 100%;
-    }
-
-    .comment-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 5px;
-    }
+/* Estilos de formulario mejorados */
+.form-group {
+    margin-bottom: 1.5rem;
 }
 
-@media (max-width: 480px) {
-    h1 {
-        font-size: 1.8rem;
-    }
-
-    .forum-card h3 {
-        font-size: 1.2rem;
-    }
-
-    .primary-button {
-        width: 100%;
-        text-align: center;
-    }
-
-    .forum-meta span {
-        font-size: 0.8rem;
-    }
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #2c3e50;
+    font-weight: 500;
 }
 
-.delete-forum-button {
-    background-color: #dc3545;
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* Botón de envío del formulario */
+#forumForm button[type="submit"] {
+    background: #3498db;
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 500;
     cursor: pointer;
-    margin-top: 20px;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
+    transition: all 0.2s ease;
+    width: 100%;
 }
 
-.delete-forum-button:hover {
-    background-color: #c82333;
-}
-
-.delete-forum-button:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.3);
+#forumForm button[type="submit"]:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
 }
